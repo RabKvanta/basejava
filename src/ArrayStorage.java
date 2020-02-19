@@ -8,9 +8,8 @@ public class ArrayStorage {
     private int size = 0;
 
     void clear() {
-        int i = 0;
-        while (storage[i] != null) {
-            storage[i++] = null;
+        for (int i = 0; i < size; i++) {
+            storage[i] = null;
         }
         size = 0;
     }
@@ -46,7 +45,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOf(storage, size());
+        return Arrays.copyOf(storage, size);
     }
 
     int size() {
