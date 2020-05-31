@@ -12,7 +12,6 @@ public class ArrayStorage extends AbstractArrayStorage {
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
-
     }
 
     public void update(Resume r) {
@@ -34,7 +33,6 @@ public class ArrayStorage extends AbstractArrayStorage {
             size++;
         }
     }
-
 
     public void delete(String uuid) {
         int index = getIndex(uuid);
@@ -59,5 +57,4 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         return -1;
     }
-
 }
