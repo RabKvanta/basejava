@@ -8,11 +8,6 @@ import ru.javawebinar.basejava.model.Resume;
  * Array based storage for Resumes
  */
 public abstract class AbstractStorage implements Storage {
-    protected int size = 0;
-
-    public int size() {
-        return size;
-    }
 
     public void update(Resume r) {
         int index = getIndex(r.getUuid());

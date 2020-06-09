@@ -11,13 +11,16 @@ import java.util.List;
 public class ListStorage extends AbstractStorage {
     protected List<Resume> list = new ArrayList<>();
 
+    public int size() {
+        return list.size();
+    }
+
     public void clear() {
         list.clear();
-        size = 0;
     }
 
     public Resume[] getAll() {
-        return list.toArray(new Resume[size]);
+        return list.toArray(new Resume[list.size()]);
     }
 
     @Override
@@ -28,7 +31,6 @@ public class ListStorage extends AbstractStorage {
     @Override
     protected void saveElement(Resume r, int index) {
         list.add(r);
-        size++;
     }
 
     @Override
@@ -39,7 +41,6 @@ public class ListStorage extends AbstractStorage {
     @Override
     protected void deleteElement(int index) {
         list.remove(index);
-        size--;
     }
 
     @Override
