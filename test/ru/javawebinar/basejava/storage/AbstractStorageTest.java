@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 public abstract class AbstractStorageTest {
-    private Storage storage;
+    protected Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final Resume RESUME_1 = new Resume(UUID_1);
 
@@ -23,8 +23,6 @@ public abstract class AbstractStorageTest {
 
     private static final String UUID_4 = "uuid4";
     private static final Resume RESUME_4 = new Resume(UUID_4);
-
-    private static final Resume[] resumes = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -63,6 +61,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll() {
+        Resume[] resumes = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
         Resume[] actualResumes = storage.getAll();
         Assert.assertArrayEquals(resumes, actualResumes);
     }
