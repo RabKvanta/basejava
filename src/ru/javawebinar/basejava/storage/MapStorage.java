@@ -4,71 +4,60 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-/**
- * Array based storage for Resumes
- */
-public class ListStorage extends AbstractStorage {
-    protected List<Resume> list = new ArrayList<>();
+public class MapStorage extends ArrayStorage {
+    protected Map<String, Resume> map = new HashMap<>();
 
     public int size() {
-        return list.size();
+        return map.size();
     }
 
     public void clear() {
-        list.clear();
+        map.clear();
     }
 
     public Resume[] getAll() {
-        return list.toArray(new Resume[list.size()]);
+        return map.values().toArray(new Resume[0]);
     }
 
     @Override
     protected void updateElement(Resume r, Object index) {
-        list.add((int) index, r);
+        map.put((String) index, r);
     }
 
     @Override
     protected void saveElement(Resume r, Object index) {
-        list.add(r);
+        map.put((String) index, r);
     }
 
     @Override
     protected Resume getElement(Object index) {
-        return list.get((int) index);
+        return map.get((String) index);
     }
 
     @Override
     protected void deleteElement(Object index) {
-        list.remove((int) index);
+        map.remove((String) index);
     }
 
     @Override
     protected Object getIndex(String uuid) {
-        int index = 0;
-        for (Resume r : list) {
-            if (r.getUuid().equals(uuid)) {
-                return index;
-            }
-            index++;
-        }
-        return -1;
+        return uuid;
     }
 
     @Override
     protected void checkNotExist(Object index, String uuid) {
-        if ((int) index < 0) {
+        if (!map.containsKey(uuid)) {
             throw new NotExistStorageException(uuid);
         }
     }
 
     @Override
     protected void checkExist(Object index, String uuid) {
-        if ((int) index >= 0) {
+        if (map.containsKey(uuid)) {
             throw new ExistStorageException(uuid);
         }
     }
-
 }
