@@ -1,5 +1,7 @@
 package ru.javawebinar.basejava.storage;
 
+import ru.javawebinar.basejava.exception.ExistStorageException;
+import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 /**
@@ -8,40 +10,50 @@ import ru.javawebinar.basejava.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public void update(Resume r) {
-        Object index = getIndex(r.getUuid());
-        checkNotExist(index, r.getUuid());
-        updateElement(r, index);
+        Object key = checkNotExist(r.getUuid());
+        updateElement(r, key);
     }
 
     public void save(Resume r) {
-        Object index = getIndex(r.getUuid());
-        checkExist(index, r.getUuid());
-        saveElement(r, index);
+        Object key = checkExist(r.getUuid());
+        saveElement(r, key);
     }
 
     public void delete(String uuid) {
-        Object index = getIndex(uuid);
-        checkNotExist(index, uuid);
-        deleteElement(index);
+        Object key = checkNotExist(uuid);
+        deleteElement(key);
     }
 
     public Resume get(String uuid) {
-        Object index = getIndex(uuid);
-        checkNotExist(index, uuid);
-        return getElement(index);
+        Object key = checkNotExist(uuid);
+        return getElement(key);
     }
 
-    protected abstract void updateElement(Resume r, Object index);
+    protected Object checkNotExist(String uuid) {
+        Object key = getKey(uuid);
+        if (!isExist(key)) {
+            throw new NotExistStorageException(uuid);
+        }
+        return key;
+    }
 
-    protected abstract void saveElement(Resume r, Object index);
+    protected Object checkExist(String uuid) {
+        Object key = getKey(uuid);
+        if (isExist(key)) {
+            throw new ExistStorageException(uuid);
+        }
+        return key;
+    }
 
-    protected abstract Resume getElement(Object index);
+    protected abstract void updateElement(Resume r, Object key);
 
-    protected abstract void deleteElement(Object index);
+    protected abstract void saveElement(Resume r, Object key);
 
-    protected abstract Object getIndex(String uuid);
+    protected abstract Resume getElement(Object key);
 
-    protected abstract void checkNotExist(Object index, String uuid);
+    protected abstract void deleteElement(Object key);
 
-    protected abstract void checkExist(Object index, String uuid);
+    protected abstract Object getKey(String uuid);
+
+    protected abstract boolean isExist(Object key);
 }
