@@ -17,7 +17,7 @@ public class MapStorage extends ArrayStorage {
     }
 
     public Resume[] getAll() {
-        return map.values().toArray(new Resume[map.size()]);
+        return map.values().toArray(new Resume[0]);
     }
 
     @Override
