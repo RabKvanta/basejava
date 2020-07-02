@@ -29,7 +29,7 @@ public abstract class AbstractStorage implements Storage {
         return getElement(key);
     }
 
-    protected Object checkNotExist(String uuid) {
+    private Object checkNotExist(String uuid) {
         Object key = getKey(uuid);
         if (!isExist(key)) {
             throw new NotExistStorageException(uuid);
@@ -37,7 +37,7 @@ public abstract class AbstractStorage implements Storage {
         return key;
     }
 
-    protected Object checkExist(String uuid) {
+    private Object checkExist(String uuid) {
         Object key = getKey(uuid);
         if (isExist(key)) {
             throw new ExistStorageException(uuid);
