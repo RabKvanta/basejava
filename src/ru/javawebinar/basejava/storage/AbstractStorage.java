@@ -10,50 +10,50 @@ import ru.javawebinar.basejava.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public void update(Resume r) {
-        Object key = checkNotExist(r.getUuid());
-        updateElement(r, key);
+        Object searchKey = getExistedSearchKey(r.getUuid());
+        doUpdate(r, searchKey);
     }
 
     public void save(Resume r) {
-        Object key = checkExist(r.getUuid());
-        saveElement(r, key);
+        Object searchKey = getNotExistedSearchKey(r.getUuid());
+        doSave(r, searchKey);
     }
 
     public void delete(String uuid) {
-        Object key = checkNotExist(uuid);
-        deleteElement(key);
+        Object searchKey = getExistedSearchKey(uuid);
+        doDelete(searchKey);
     }
 
     public Resume get(String uuid) {
-        Object key = checkNotExist(uuid);
-        return getElement(key);
+        Object searchKey = getExistedSearchKey(uuid);
+        return doGet(searchKey);
     }
 
-    private Object checkNotExist(String uuid) {
-        Object key = getKey(uuid);
+    private Object getExistedSearchKey(String uuid) {
+        Object key = getSearchKey(uuid);
         if (!isExist(key)) {
             throw new NotExistStorageException(uuid);
         }
         return key;
     }
 
-    private Object checkExist(String uuid) {
-        Object key = getKey(uuid);
+    private Object getNotExistedSearchKey(String uuid) {
+        Object key = getSearchKey(uuid);
         if (isExist(key)) {
             throw new ExistStorageException(uuid);
         }
         return key;
     }
 
-    protected abstract void updateElement(Resume r, Object key);
+    protected abstract void doUpdate(Resume r, Object key);
 
-    protected abstract void saveElement(Resume r, Object key);
+    protected abstract void doSave(Resume r, Object key);
 
-    protected abstract Resume getElement(Object key);
+    protected abstract Resume doGet(Object key);
 
-    protected abstract void deleteElement(Object key);
+    protected abstract void doDelete(Object key);
 
-    protected abstract Object getKey(String uuid);
+    protected abstract Object getSearchKey(String uuid);
 
     protected abstract boolean isExist(Object key);
 }

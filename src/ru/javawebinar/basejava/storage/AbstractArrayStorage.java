@@ -31,39 +31,41 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateElement(Resume r, Object index) {
-        storage[(int) index] = r;
+    protected void doUpdate(Resume r, Object index) {
+        storage[(Integer) index] = r;
     }
 
     @Override
-    protected void saveElement(Resume r, Object index) {
+    protected void doSave(Resume r, Object index) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Storage overflow", r.getUuid());
         } else {
-            insertElement(r, (int) index);
+            insertElement(r, (Integer) index);
             size++;
         }
     }
 
     @Override
-    protected Resume getElement(Object index) {
+    protected Resume doGet(Object index) {
         return storage[(int) index];
     }
 
     @Override
-    protected void deleteElement(Object index) {
-        fillDeletedElement((int) index);
+    protected void doDelete(Object index) {
+        fillDeletedElement((Integer) index);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
     protected boolean isExist(Object index) {
-        return ((int) index >= 0);
+        return ((Integer) index >= 0);
     }
 
     protected abstract void fillDeletedElement(int index);
 
     protected abstract void insertElement(Resume r, int index);
+
+    protected abstract Integer getSearchKey(String uuid);
 
 }

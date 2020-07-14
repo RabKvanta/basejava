@@ -24,27 +24,27 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateElement(Resume r, Object index) {
+    protected void doUpdate(Resume r, Object index) {
         list.add((int) index, r);
     }
 
     @Override
-    protected void saveElement(Resume r, Object index) {
+    protected void doSave(Resume r, Object index) {
         list.add(r);
     }
 
     @Override
-    protected Resume getElement(Object index) {
+    protected Resume doGet(Object index) {
         return list.get((int) index);
     }
 
     @Override
-    protected void deleteElement(Object index) {
+    protected void doDelete(Object index) {
         list.remove((int) index);
     }
 
     @Override
-    protected Object getKey(String uuid) {
+    protected Object getSearchKey(String uuid) {
         for (int index = 0; index < list.size(); index++) {
             if (list.get(index).getUuid().equals(uuid)) {
                 return index;

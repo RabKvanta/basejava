@@ -5,7 +5,7 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapStorage extends ArrayStorage {
+public class MapStorage extends AbstractStorage {
     protected Map<String, Resume> map = new HashMap<>();
 
     public int size() {
@@ -21,27 +21,27 @@ public class MapStorage extends ArrayStorage {
     }
 
     @Override
-    protected void updateElement(Resume r, Object key) {
+    protected void doUpdate(Resume r, Object key) {
         map.put((String) key, r);
     }
 
     @Override
-    protected void saveElement(Resume r, Object key) {
+    protected void doSave(Resume r, Object key) {
         map.put((String) key, r);
     }
 
     @Override
-    protected Resume getElement(Object key) {
+    protected Resume doGet(Object key) {
         return map.get(key);
     }
 
     @Override
-    protected void deleteElement(Object key) {
+    protected void doDelete(Object key) {
         map.remove(key);
     }
 
     @Override
-    protected Object getKey(String uuid) {
+    protected Object getSearchKey(String uuid) {
         return uuid;
     }
 
