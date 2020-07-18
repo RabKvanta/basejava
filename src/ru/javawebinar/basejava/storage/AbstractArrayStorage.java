@@ -29,15 +29,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-   /* public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size);
-    }
-    */
+
     @Override
-    public List<Resume> getAllSorted() {
+    public List<Resume> getListCopy() {
         List<Resume> listCopy = new ArrayList<>();
         Collections.addAll(listCopy, Arrays.copyOfRange(storage, 0, size));
-        Collections.sort(listCopy);
         return listCopy;
     }
 

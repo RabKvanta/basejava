@@ -8,7 +8,6 @@ import java.util.List;
  * Array based storage for Resumes
  */
 public interface Storage {
-
     void clear();
 
     void update(Resume r);
@@ -19,12 +18,9 @@ public interface Storage {
 
     void delete(String uuid);
 
-   // Resume[] getAll();
-
     // return list, sorted by name
     List<Resume> getAllSorted();
 
     int size();
-
 
 }

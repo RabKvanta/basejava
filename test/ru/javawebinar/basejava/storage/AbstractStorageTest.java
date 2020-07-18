@@ -60,7 +60,7 @@ public abstract class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() {
+    public void getAllSorted() {
         Resume[] expectedResumes = new Resume[]{RESUME_1, RESUME_2, RESUME_3};
         Resume[] actualResumes = storage.getAllSorted().toArray(new Resume[0]);
        // Arrays.sort(actualResumes);

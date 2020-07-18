@@ -21,15 +21,9 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
-        List<Resume> listCopy = new ArrayList<>(list);
-        Collections.sort(listCopy);
-        return listCopy;
+    public List<Resume> getListCopy() {
+        return new ArrayList<>(list);
     }
-/*
-    public Resume[] getAll() {
-        return list.toArray(new Resume[0]);
-    }*/
 
     @Override
     protected void doUpdate(Resume r, Object index) {
