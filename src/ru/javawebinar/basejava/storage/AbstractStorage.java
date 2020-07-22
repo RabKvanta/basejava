@@ -11,19 +11,12 @@ import java.util.*;
  */
 public abstract class AbstractStorage implements Storage {
 
-    protected static final Comparator<Resume> RESUME_COMPARATOR = new Comparator<Resume>() {
-        @Override
-        public int compare(Resume o1, Resume o2) {
-            if (o1.getFullName().equals(o2.getFullName()))
-                return o1.getUuid().compareTo(o2.getUuid());
-            else return o1.getFullName().compareTo(o2.getFullName());
-        }
-    };
+    protected static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid);
 
     public List<Resume> getAllSorted() {
-        List<Resume> listCopy = getListCopy();
-        Collections.sort(listCopy, RESUME_COMPARATOR);
-        return listCopy;
+        List<Resume> listResumes = getListCopy();
+        listResumes.sort(RESUME_COMPARATOR);
+        return listResumes;
     }
 
     public void update(Resume r) {
