@@ -7,7 +7,7 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -16,16 +16,16 @@ import static org.junit.Assert.assertSame;
 public abstract class AbstractStorageTest {
     protected Storage storage;
     private static final String UUID_1 = "uuid1";
-    private static final Resume RESUME_1 = new Resume(UUID_1, "A");
+    private static final Resume RESUME_1 = new Resume(UUID_1, "Name1");
 
     private static final String UUID_2 = "uuid2";
-    private static final Resume RESUME_2 = new Resume(UUID_2, "B");
+    private static final Resume RESUME_2 = new Resume(UUID_2, "Name2");
 
     private static final String UUID_3 = "uuid3";
-    private static final Resume RESUME_3 = new Resume(UUID_3, "X");
+    private static final Resume RESUME_3 = new Resume(UUID_3, "Name3");
 
     private static final String UUID_4 = "uuid4";
-    private static final Resume RESUME_4 = new Resume(UUID_4, "Z");
+    private static final Resume RESUME_4 = new Resume(UUID_4, "Name4");
 
     protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -52,7 +52,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() {
-        Resume newResume = new Resume(UUID_1, "Filonov Vova");
+        Resume newResume = new Resume(UUID_1, "New Name");
         storage.update(newResume);
         assertSame(newResume, storage.get(UUID_1));
     }
@@ -64,11 +64,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
-        List<Resume> expectedResumes = new ArrayList<>();
-        expectedResumes.add(RESUME_1);
-        expectedResumes.add(RESUME_2);
-        expectedResumes.add(RESUME_3);
-
+        List<Resume> expectedResumes = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
         List<Resume> actualResumes = storage.getAllSorted();
         Assert.assertEquals(expectedResumes, actualResumes);
     }
