@@ -3,13 +3,12 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Array based storage for Resumes
  */
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
     protected List<Resume> list = new ArrayList<>();
 
     public int size() {
@@ -26,27 +25,27 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doUpdate(Resume r, Object index) {
-        list.add((int) index, r);
+    protected void doUpdate(Resume r, Integer index) {
+        list.add(index, r);
     }
 
     @Override
-    protected void doSave(Resume r, Object index) {
+    protected void doSave(Resume r, Integer index) {
         list.add(r);
     }
 
     @Override
-    protected Resume doGet(Object index) {
-        return list.get((int) index);
+    protected Resume doGet(Integer index) {
+        return list.get(index);
     }
 
     @Override
-    protected void doDelete(Object index) {
-        list.remove((int) index);
+    protected void doDelete(Integer index) {
+        list.remove(index.intValue());
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         for (int index = 0; index < list.size(); index++) {
             if (list.get(index).getUuid().equals(uuid)) {
                 return index;
@@ -56,7 +55,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return ((int) index >= 0);
+    protected boolean isExist(Integer index) {
+        return (index >= 0);
     }
 }
