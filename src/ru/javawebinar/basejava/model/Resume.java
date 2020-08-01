@@ -12,7 +12,8 @@ public class Resume {
 
     private final String fullName;
 
-    private Map<SectionType, Section> sectionsMap = new HashMap<>();
+    private  Map<SectionType, Section> sections = new HashMap<>();
+    private  Map<ContactType, String> contacts = new HashMap<>();
 
 
     public Resume(String fullName) {
@@ -34,6 +35,22 @@ public class Resume {
         return fullName;
     }
 
+    public Map<SectionType, Section> getSections() {
+        return sections;
+    }
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public void setSections(Map<SectionType, Section> sections) {
+        this.sections = sections;
+    }
+
+    public void setContacts(Map<ContactType, String> contacts) {
+        this.contacts = contacts;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,6 +59,7 @@ public class Resume {
         return uuid.equals(resume.uuid) &&
                 fullName.equals(resume.fullName);
     }
+
 
     @Override
     public int hashCode() {
