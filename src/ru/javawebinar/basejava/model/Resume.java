@@ -1,9 +1,6 @@
 package ru.javawebinar.basejava.model;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class Resume {
 
@@ -12,8 +9,8 @@ public class Resume {
 
     private final String fullName;
 
-    private  Map<SectionType, Section> sections = new HashMap<>();
-    private  Map<ContactType, String> contacts = new HashMap<>();
+    private Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
+    private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
 
 
     public Resume(String fullName) {
@@ -35,7 +32,7 @@ public class Resume {
         return fullName;
     }
 
-    public Map<SectionType, Section> getSections() {
+    public Map<SectionType, AbstractSection> getSections() {
         return sections;
     }
 
@@ -43,7 +40,7 @@ public class Resume {
         return contacts;
     }
 
-    public void setSections(Map<SectionType, Section> sections) {
+    public void setSections(Map<SectionType, AbstractSection> sections) {
         this.sections = sections;
     }
 
@@ -57,13 +54,14 @@ public class Resume {
         if (o == null || getClass() != o.getClass()) return false;
         Resume resume = (Resume) o;
         return uuid.equals(resume.uuid) &&
-                fullName.equals(resume.fullName);
+                fullName.equals(resume.fullName) &&
+                sections.equals(resume.sections) &&
+                contacts.equals(resume.contacts);
     }
-
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, fullName);
+        return Objects.hash(uuid, fullName, sections, contacts);
     }
 
     @Override

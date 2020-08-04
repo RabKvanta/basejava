@@ -9,7 +9,7 @@ import java.util.List;
  * Array based storage for Resumes
  */
 public class ListStorage extends AbstractStorage<Integer> {
-    protected List<Resume> list = new ArrayList<>();
+    private List<Resume> list = new ArrayList<>();
 
     public int size() {
         return list.size();
