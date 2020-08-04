@@ -2,15 +2,17 @@ package ru.javawebinar.basejava;
 
 import ru.javawebinar.basejava.model.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 public class ResumeTestData {
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) {
         Resume resume = new Resume("Григорий Кислин");
 
-        Map<ContactType, String> contacts = new LinkedHashMap<>();
+        Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
         contacts.put(ContactType.MOBILE_PHONE, "+7(921) 855-0482");
         contacts.put(ContactType.SKYPE, "skype:grigory.kislin");
         contacts.put(ContactType.EMAIL, "gkislin@yandex.ru");
@@ -20,7 +22,7 @@ public class ResumeTestData {
         contacts.put(ContactType.HOME_PAGE, "http://gkislin.ru/");
         resume.setContacts(contacts);
 
-        Map<SectionType, Section> sections = new LinkedHashMap<>();
+        Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
         sections.put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
         sections.put(SectionType.PERSONAL, new TextSection("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
 
@@ -51,14 +53,11 @@ public class ResumeTestData {
                 "Родной русский, английский \"upper intermediate\"");
         sections.put(SectionType.QUALIFICATION, new ListSection(list));
 
-
-        SimpleDateFormat df = new SimpleDateFormat("MM/yyyy");
-
-        List<ChronoElement> chronoList = Arrays.asList(
-                new ChronoElement(df.parse("10/2013"), new Date(), "Автор проекта", "http://javaops.ru/", "Создание, организация и проведение Java онлайн проектов и стажировок."),
-                new ChronoElement(df.parse("04/2012"), df.parse("10/2014"), "Старший разработчик (backend)", "https://www.wrike.com/", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")
+        List<Experience> chronoList = Arrays.asList(
+                new Experience(LocalDate.of(2013, 10, 1), LocalDate.now(), "Автор проекта", "http://javaops.ru/", "Создание, организация и проведение Java онлайн проектов и стажировок."),
+                new Experience(LocalDate.of(2012, 4, 1), LocalDate.of(2014, 4, 1), "Старший разработчик (backend)", "https://www.wrike.com/", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")
         );
-        sections.put(SectionType.EXPERIENCE, new ChronoListSection(chronoList));
+        sections.put(SectionType.EXPERIENCE, new ExperienceSection(chronoList));
         resume.setSections(sections);
 
         /* OUTPUT */
@@ -69,7 +68,7 @@ public class ResumeTestData {
         }
 
         sections = resume.getSections();
-        for (Map.Entry<SectionType, Section> pair : sections.entrySet()) {
+        for (Map.Entry<SectionType, AbstractSection> pair : sections.entrySet()) {
             System.out.println(pair.getKey().getTitle() + " : " + pair.getValue().toString());
         }
     }
