@@ -54,8 +54,8 @@ public class ResumeTestData {
         sections.put(SectionType.QUALIFICATION, new ListSection(list));
 
         List<Experience> chronoList = Arrays.asList(
-                new Experience(LocalDate.of(2013, 10, 1), LocalDate.now(), "Автор проекта", "http://javaops.ru/", "Создание, организация и проведение Java онлайн проектов и стажировок."),
-                new Experience(LocalDate.of(2012, 4, 1), LocalDate.of(2014, 4, 1), "Старший разработчик (backend)", "https://www.wrike.com/", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")
+                new Experience("", "https://www.javaops.ru/", LocalDate.of(2013, 10, 1), LocalDate.now(), "Автор проекта", "Создание, организация и проведение Java онлайн проектов и стажировок."),
+                new Experience("", "https://www.wrike.com/", LocalDate.of(2012, 4, 1), LocalDate.of(2014, 4, 1), "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")
         );
         sections.put(SectionType.EXPERIENCE, new ExperienceSection(chronoList));
         resume.setSections(sections);
