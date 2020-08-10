@@ -59,11 +59,11 @@ public class ResumeTestData {
         sections.put(SectionType.QUALIFICATION, new ListSection(list));
         Experience.Position position = new Experience.Position(LocalDate.of(2013, 10, 1), LocalDate.now(), "Автор проекта", "Создание, организация и проведение Java онлайн проектов и стажировок.");
         Experience.Position position1 = new Experience.Position(LocalDate.of(2012, 4, 1), LocalDate.of(2014, 4, 1), "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
-        List<Experience> chronoList = Arrays.asList(
+        List<Experience> experiences = Arrays.asList(
                 new Experience("", "https://www.javaops.ru/", Arrays.asList(position)),
                 new Experience("", "https://www.wrike.com/", Arrays.asList(position1))
         );
-        sections.put(SectionType.EXPERIENCE, new ExperienceSection(chronoList));
+        sections.put(SectionType.EXPERIENCE, new ExperienceSection(experiences));
         resume.setSections(sections);
 
         /* OUTPUT */
