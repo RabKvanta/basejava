@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Map;
 
 public class ResumeTestData {
+    public static Resume getResume(String uuid, String fullName) {
+        Resume resume = new Resume(uuid, fullName);
+        return resume;
+    }
+
     public static void main(String[] args) {
         Resume resume = new Resume("Григорий Кислин");
 
