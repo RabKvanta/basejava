@@ -9,8 +9,57 @@ import java.util.List;
 import java.util.Map;
 
 public class ResumeTestData {
+
+    private static final Map<ContactType, String> CONTACTS_UUID1 = new EnumMap(ContactType.class) {{
+        put(ContactType.MOBILE_PHONE, "+38(097) 855-0482");
+        put(ContactType.EMAIL, "name1@yandex.ru");
+    }};
+    private static final Map<ContactType, String> CONTACTS_UUID2 = new EnumMap(ContactType.class) {{
+        put(ContactType.MOBILE_PHONE, "+38(095) 155-0482");
+        put(ContactType.EMAIL, "name2@yandex.ru");
+    }};
+    private static final Map<ContactType, String> CONTACTS_UUID3 = new EnumMap(ContactType.class) {{
+        put(ContactType.MOBILE_PHONE, "+38(097) 111-1111");
+        put(ContactType.EMAIL, "name3@mail.ru");
+    }};
+    private static final Map<ContactType, String> CONTACTS_UUID4 = new EnumMap(ContactType.class) {{
+        put(ContactType.MOBILE_PHONE, "+38(097) 421-1111");
+        put(ContactType.EMAIL, "name4@mail.ru");
+    }};
+    private static final Map<SectionType, AbstractSection> SECTIONS_UUID1 = new EnumMap(SectionType.class) {{
+        put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок по Java Web"));
+        put(SectionType.PERSONAL, new TextSection("Логика, креативность, инициативность."));
+        put(SectionType.ACHIEVEMENT, Arrays.asList(
+                "Успех 1",
+                "Успех 2",
+                "Успех 3"));
+        put(SectionType.QUALIFICATION, Arrays.asList(
+                "Технология 1",
+                "Технология 2",
+                "Технология 3"));
+        put(SectionType.EXPERIENCE, Arrays.asList(
+                new Experience("", "https://www.tutu.ru/", Arrays.asList(new Experience.Position(LocalDate.of(2013, 10, 1), LocalDate.now(), "Кем-то", "Работу работал."))),
+                new Experience("", "https://www.kuku.com/", Arrays.asList(new Experience.Position(LocalDate.of(2013, 10, 1), LocalDate.now(), "Прислуга за все", "Куда пошлют.")))));
+    }};
+
+
     public static Resume getResume(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
+        switch (uuid) {
+            case "uuid1":
+                resume.setContacts(CONTACTS_UUID1);
+                resume.setSections(SECTIONS_UUID1);
+                break;
+            case "uuid2":
+                resume.setContacts(CONTACTS_UUID2);
+                break;
+            case "uuid3":
+                resume.setContacts(CONTACTS_UUID3);
+                break;
+            case "uuid4":
+                resume.setContacts(CONTACTS_UUID4);
+                break;
+        }
         return resume;
     }
 
@@ -57,6 +106,7 @@ public class ResumeTestData {
                 "Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, архитектурных шаблонов, UML, функционального программирования",
                 "Родной русский, английский \"upper intermediate\"");
         sections.put(SectionType.QUALIFICATION, new ListSection(list));
+
         Experience.Position position = new Experience.Position(LocalDate.of(2013, 10, 1), LocalDate.now(), "Автор проекта", "Создание, организация и проведение Java онлайн проектов и стажировок.");
         Experience.Position position1 = new Experience.Position(LocalDate.of(2012, 4, 1), LocalDate.of(2014, 4, 1), "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
         List<Experience> experiences = Arrays.asList(
