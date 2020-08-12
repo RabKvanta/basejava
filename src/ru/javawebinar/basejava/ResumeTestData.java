@@ -38,8 +38,50 @@ public class ResumeTestData {
                 "Технология 2",
                 "Технология 3"));
         put(SectionType.EXPERIENCE, Arrays.asList(
-                new Experience("", "https://www.tutu.ru/", Arrays.asList(new Experience.Position(LocalDate.of(2013, 10, 1), LocalDate.now(), "Кем-то", "Работу работал."))),
-                new Experience("", "https://www.kuku.com/", Arrays.asList(new Experience.Position(LocalDate.of(2013, 10, 1), LocalDate.now(), "Прислуга за все", "Куда пошлют.")))));
+                new Experience("TOV", "https://www.tutu.ru/",
+                        Arrays.asList(new Experience.Position(LocalDate.of(2013, 10, 1), LocalDate.now(), "Кем-то", "Работу работал."),
+                                new Experience.Position(LocalDate.of(2010, 10, 1), LocalDate.of(2013, 9, 1), "Кем-то", "Работу работал."))),
+                new Experience("OOO\"Ku-Ku\"", "https://www.kuku.com/",
+                        Arrays.asList(new Experience.Position(LocalDate.of(2010, 10, 1), LocalDate.now(), "Прислуга за все", "Куда пошлют."),
+
+                                new Experience.Position(LocalDate.of(2001, 10, 1), LocalDate.of(2010, 10, 1), "Прислуга за все", "Куда пошлют.")))));
+        put(SectionType.EDUCATION, Arrays.asList(
+                new Experience("KPI", "https://www.kpi.ua/",
+                        Arrays.asList(new Experience.Position(LocalDate.of(2005, 10, 1),LocalDate.of(2010, 10, 1) , "Профессор", "Научные изыскания."),
+                                new Experience.Position(LocalDate.of(2001, 10, 1), LocalDate.of(2005, 9, 1), "Аспирант", "Кафедра."))),
+                new Experience("MGU", "https://www.mgu.com/",
+                        Arrays.asList(new Experience.Position(LocalDate.of(1995, 10, 1), LocalDate.of(2000, 10, 1), "Студент", "Учеба на факультете."),
+                                new Experience.Position(LocalDate.of(2000, 10, 1), LocalDate.of(2001, 10, 1), "Лаборант", "Лабратория.")))));
+
+    }
+    };
+    private static final Map<SectionType, AbstractSection> SECTIONS_UUID2 = new EnumMap(SectionType.class) {{
+        put(SectionType.OBJECTIVE, new TextSection("Гудвин"));
+        put(SectionType.PERSONAL, new TextSection("Великий и ужасный."));
+        put(SectionType.ACHIEVEMENT, Arrays.asList(
+                "Победа 1",
+                "Победа 2",
+                "Победа 3"));
+        put(SectionType.QUALIFICATION, Arrays.asList(
+                "Технология 1",
+                "Технология 2",
+                "Технология 3"));
+        put(SectionType.EXPERIENCE, Arrays.asList(
+                new Experience("Изумрудный город", "https://www.gudvin.ru/",
+                        Arrays.asList(new Experience.Position(LocalDate.of(2013, 10, 1), LocalDate.now(), "Кем-то", "Работу работал."),
+                                new Experience.Position(LocalDate.of(2010, 10, 1), LocalDate.of(2013, 9, 1), "Кем-то", "Работу работал."))),
+                new Experience("OOO\"Totoshka\"", "https://www.totti.com/",
+                        Arrays.asList(new Experience.Position(LocalDate.of(2010, 10, 1), LocalDate.now(), "Прислуга за все", "Куда пошлют."),
+                                new Experience.Position(LocalDate.of(2001, 10, 1), LocalDate.of(2010, 10, 1), "Прислуга за все", "Куда пошлют.")))));
+        put(SectionType.EDUCATION, Arrays.asList(
+                new Experience("Garward", "https://www.garward.com/",
+                        Arrays.asList(new Experience.Position(LocalDate.of(2005, 10, 1),LocalDate.of(2010, 10, 1) , "Профессор", "Научные изыскания."),
+                                new Experience.Position(LocalDate.of(2001, 10, 1), LocalDate.of(2005, 9, 1), "Аспирант", "Кафедра."))),
+                new Experience("ВУЗ", "https://www.vuz.com/",
+                        Arrays.asList(new Experience.Position(LocalDate.of(1995, 10, 1), LocalDate.of(2000, 10, 1), "Студент", "Учеба на факультете."),
+                                new Experience.Position(LocalDate.of(2000, 10, 1), LocalDate.of(2001, 10, 1), "Лаборант", "Лабратория.")))));
+
+
     }};
 
 
@@ -52,6 +94,7 @@ public class ResumeTestData {
                 break;
             case "uuid2":
                 resume.setContacts(CONTACTS_UUID2);
+                resume.setSections(SECTIONS_UUID2);
                 break;
             case "uuid3":
                 resume.setContacts(CONTACTS_UUID3);
