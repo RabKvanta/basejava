@@ -1,10 +1,15 @@
 package ru.javawebinar.basejava.model;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class ExperienceSection extends AbstractSection {
     private final List<Experience> experiences;
+
+    public ExperienceSection(Experience... experiences) {
+        this(Arrays.asList(experiences));
+    }
 
     public ExperienceSection(List<Experience> experiences) {
         Objects.requireNonNull(experiences, "experiences must not be null");
