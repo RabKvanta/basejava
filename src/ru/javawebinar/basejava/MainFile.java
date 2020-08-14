@@ -29,29 +29,32 @@ public class MainFile {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        printAllFiles(dir);
+
+        printAllFiles(dir, "");
+
     }
 
-    public static void printAllFiles(File dir) {
-        if (!dir.isDirectory()) {
+    public static void printAllFiles(File dir, String delimiter) {
+        if (dir.isFile()) {
             System.out.println(dir.getName());
             return;
         } else {
-            System.out.println("Dir: " + dir.getName().toUpperCase());
+            System.out.println(delimiter + "DIR: " + dir.getName().toUpperCase());
+            delimiter += "     ";
         }
 
         File[] listFiles = dir.listFiles();
 
         if (listFiles != null) {
             for (File file : listFiles) {
-                if (!file.isDirectory()) {
-                    System.out.println("--" + file.getName());
+                if (file.isFile()) {
+                    System.out.println(delimiter + "|--- " + file.getName());
                 }
             }
 
             for (File file : listFiles) {
                 if (file.isDirectory()) {
-                    printAllFiles(file);
+                    printAllFiles(file, delimiter + "|");
                 }
             }
         }

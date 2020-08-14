@@ -3,10 +3,12 @@ package ru.javawebinar.basejava;
 import ru.javawebinar.basejava.model.*;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+
 
 public class ResumeTestData {
 
@@ -26,34 +28,33 @@ public class ResumeTestData {
         put(ContactType.MOBILE_PHONE, "+38(097) 421-1111");
         put(ContactType.EMAIL, "name4@mail.ru");
     }};
-    private static final Map<SectionType, AbstractSection> SECTIONS_UUID1 = new EnumMap(SectionType.class) {{
-        put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок по Java Web"));
-        put(SectionType.PERSONAL, new TextSection("Логика, креативность, инициативность."));
-        put(SectionType.ACHIEVEMENT, Arrays.asList(
-                "Успех 1",
-                "Успех 2",
-                "Успех 3"));
-        put(SectionType.QUALIFICATION, Arrays.asList(
-                "Технология 1",
-                "Технология 2",
-                "Технология 3"));
-        put(SectionType.EXPERIENCE, Arrays.asList(
-                new Experience("TOV", "https://www.tutu.ru/",
-                        Arrays.asList(new Experience.Position(LocalDate.of(2013, 10, 1), LocalDate.now(), "Кем-то", "Работу работал."),
-                                new Experience.Position(LocalDate.of(2010, 10, 1), LocalDate.of(2013, 9, 1), "Кем-то", "Работу работал."))),
-                new Experience("OOO\"Ku-Ku\"", "https://www.kuku.com/",
-                        Arrays.asList(new Experience.Position(LocalDate.of(2010, 10, 1), LocalDate.now(), "Прислуга за все", "Куда пошлют."),
+    private static final Map<SectionType, AbstractSection> SECTIONS_UUID1 = new EnumMap(SectionType.class) {
+        {
+            put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок по Java Web"));
+            put(SectionType.PERSONAL, new TextSection("Логика, креативность, инициативность."));
+            put(SectionType.ACHIEVEMENT, Arrays.asList(
+                    "Успех 1",
+                    "Успех 2",
+                    "Успех 3"));
+            put(SectionType.QUALIFICATION, Arrays.asList(
+                    "Технология 1",
+                    "Технология 2",
+                    "Технология 3"));
+            put(SectionType.EXPERIENCE, Arrays.asList(
+                    new Experience("TOV", "https://www.tutu.ru/", new Experience.Position(2013, Month.OCTOBER, "position2", "content2"),
+                            new Experience.Position(2010, Month.APRIL, 2013, Month.SEPTEMBER, "position1", "content1")),
+                    new Experience("OOO\"Ku-Ku\"", "https://www.kuku.com/",
+                            new Experience.Position(2010, Month.APRIL, "position2", "content2"),
+                            new Experience.Position(2009, Month.AUGUST, 2010, Month.MARCH, "position1", "content1"))));
+            put(SectionType.EDUCATION, Arrays.asList(
+                    new Experience("KPI", "https://www.kpi.ua/",
+                            new Experience.Position(2005, Month.OCTOBER, 2009, Month.MARCH, "Профессор", "Научные изыскания."),
+                            new Experience.Position(2004, Month.SEPTEMBER, 2005, Month.MARCH, "Аспирант", "Кафедра.")),
+                    new Experience("MGU", "https://www.mgu.com/",
+                            new Experience.Position(2000, Month.OCTOBER, 2002, Month.MARCH, "Laborant", "IT facultet"),
+                            new Experience.Position(1995, Month.SEPTEMBER, 2000, Month.MARCH, "Student", "IT facultet"))));
 
-                                new Experience.Position(LocalDate.of(2001, 10, 1), LocalDate.of(2010, 10, 1), "Прислуга за все", "Куда пошлют.")))));
-        put(SectionType.EDUCATION, Arrays.asList(
-                new Experience("KPI", "https://www.kpi.ua/",
-                        Arrays.asList(new Experience.Position(LocalDate.of(2005, 10, 1),LocalDate.of(2010, 10, 1) , "Профессор", "Научные изыскания."),
-                                new Experience.Position(LocalDate.of(2001, 10, 1), LocalDate.of(2005, 9, 1), "Аспирант", "Кафедра."))),
-                new Experience("MGU", "https://www.mgu.com/",
-                        Arrays.asList(new Experience.Position(LocalDate.of(1995, 10, 1), LocalDate.of(2000, 10, 1), "Студент", "Учеба на факультете."),
-                                new Experience.Position(LocalDate.of(2000, 10, 1), LocalDate.of(2001, 10, 1), "Лаборант", "Лабратория.")))));
-
-    }
+        }
     };
     private static final Map<SectionType, AbstractSection> SECTIONS_UUID2 = new EnumMap(SectionType.class) {{
         put(SectionType.OBJECTIVE, new TextSection("Гудвин"));
@@ -68,18 +69,18 @@ public class ResumeTestData {
                 "Технология 3"));
         put(SectionType.EXPERIENCE, Arrays.asList(
                 new Experience("Изумрудный город", "https://www.gudvin.ru/",
-                        Arrays.asList(new Experience.Position(LocalDate.of(2013, 10, 1), LocalDate.now(), "Кем-то", "Работу работал."),
-                                new Experience.Position(LocalDate.of(2010, 10, 1), LocalDate.of(2013, 9, 1), "Кем-то", "Работу работал."))),
+                        new Experience.Position(2013, Month.SEPTEMBER, "position2", "content2"),
+                        new Experience.Position(2010, Month.AUGUST, 2013, Month.AUGUST, "position1", "content1")),
                 new Experience("OOO\"Totoshka\"", "https://www.totti.com/",
-                        Arrays.asList(new Experience.Position(LocalDate.of(2010, 10, 1), LocalDate.now(), "Прислуга за все", "Куда пошлют."),
-                                new Experience.Position(LocalDate.of(2001, 10, 1), LocalDate.of(2010, 10, 1), "Прислуга за все", "Куда пошлют.")))));
+                        new Experience.Position(2010, Month.SEPTEMBER, 2001, Month.AUGUST, "position2", "content2"),
+                        new Experience.Position(2001, Month.AUGUST, 2010, Month.AUGUST, "position1", "content2"))));
         put(SectionType.EDUCATION, Arrays.asList(
                 new Experience("Garward", "https://www.garward.com/",
-                        Arrays.asList(new Experience.Position(LocalDate.of(2005, 10, 1),LocalDate.of(2010, 10, 1) , "Профессор", "Научные изыскания."),
-                                new Experience.Position(LocalDate.of(2001, 10, 1), LocalDate.of(2005, 9, 1), "Аспирант", "Кафедра."))),
-                new Experience("ВУЗ", "https://www.vuz.com/",
-                        Arrays.asList(new Experience.Position(LocalDate.of(1995, 10, 1), LocalDate.of(2000, 10, 1), "Студент", "Учеба на факультете."),
-                                new Experience.Position(LocalDate.of(2000, 10, 1), LocalDate.of(2001, 10, 1), "Лаборант", "Лабратория.")))));
+                        new Experience.Position(2000, Month.OCTOBER, 2001, Month.MARCH, "Профессор", "Научные изыскания."),
+                        new Experience.Position(1997, Month.SEPTEMBER, 2000, Month.MARCH, "Аспирант", "Кафедра.")),
+                new Experience("VUZ", "https://www.vuz.com/",
+                        new Experience.Position(1996, Month.OCTOBER, 1997, Month.MARCH, "Laborant", "RTF facultet"),
+                        new Experience.Position(1990, Month.SEPTEMBER, 1996, Month.MARCH, "Student", "RTF facultet"))));
 
 
     }};
@@ -153,8 +154,8 @@ public class ResumeTestData {
         Experience.Position position = new Experience.Position(LocalDate.of(2013, 10, 1), LocalDate.now(), "Автор проекта", "Создание, организация и проведение Java онлайн проектов и стажировок.");
         Experience.Position position1 = new Experience.Position(LocalDate.of(2012, 4, 1), LocalDate.of(2014, 4, 1), "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.");
         List<Experience> experiences = Arrays.asList(
-                new Experience("", "https://www.javaops.ru/", Arrays.asList(position)),
-                new Experience("", "https://www.wrike.com/", Arrays.asList(position1))
+                new Experience("JAVAOPS", "https://www.javaops.ru/", position),
+                new Experience("WRIKE", "https://www.wrike.com/", position1)
         );
         sections.put(SectionType.EXPERIENCE, new ExperienceSection(experiences));
         resume.setSections(sections);

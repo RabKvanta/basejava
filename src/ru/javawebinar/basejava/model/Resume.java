@@ -48,6 +48,15 @@ public class Resume {
         this.contacts = contacts;
     }
 
+    public void addSection(SectionType type, AbstractSection section) {
+        sections.put(type, section);
+    }
+
+    public void addContact(ContactType type, String value) {
+        contacts.put(type, value);
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
