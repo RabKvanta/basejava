@@ -44,39 +44,39 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     }
 
     @Override
-    protected void doUpdate(Resume r, Path file) {
+    protected void doUpdate(Resume r, Path path) {
         try {
-            doWrite(r, new BufferedOutputStream(new FileOutputStream(file.toFile())));
+            doWrite(r, new BufferedOutputStream(Files.newOutputStream(path)));
         } catch (IOException e) {
             throw new StorageException("Path write error", r.getUuid(), e);
         }
     }
 
     @Override
-    protected void doSave(Resume r, Path file) {
+    protected void doSave(Resume r, Path path) {
         try {
-            Files.createFile(file);
+            Files.createFile(path);
         } catch (IOException e) {
-            throw new StorageException("Couldn't create file " + file.getFileName().toString(), file.getFileName().toString(), e);
+            throw new StorageException("Couldn't create file " + path.getFileName().toString(), path.getFileName().toString(), e);
         }
-        doUpdate(r, file);
+        doUpdate(r, path);
     }
 
     @Override
-    protected Resume doGet(Path file) {
+    protected Resume doGet(Path path) {
         try {
-            return doRead(new BufferedInputStream(new FileInputStream(file.toFile())));
+            return doRead(new BufferedInputStream(Files.newInputStream(path)));
         } catch (IOException e) {
-            throw new StorageException("Path read error", file.getFileName().toString(), e);
+            throw new StorageException("Path read error", path.getFileName().toString(), e);
         }
     }
 
     @Override
-    protected void doDelete(Path file) {
+    protected void doDelete(Path path) {
         try {
-            Files.delete(file);
+            Files.delete(path);
         } catch (IOException e) {
-            throw new StorageException("Path delete error", file.getFileName().toString());
+            throw new StorageException("Path delete error", path.getFileName().toString());
         }
     }
 
@@ -86,8 +86,8 @@ public abstract class AbstractPathStorage extends AbstractStorage<Path> {
     }
 
     @Override
-    protected boolean isExist(Path file) {
-        return Files.exists(file);
+    protected boolean isExist(Path path) {
+        return Files.exists(path);
     }
 
     @Override
