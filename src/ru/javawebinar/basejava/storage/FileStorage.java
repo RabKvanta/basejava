@@ -2,6 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.storage.serializer.Strategy;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class FileStorage extends AbstractStorage<File> {
     private File directory;
     private Strategy strategy;
 
-    protected FileStorage(File directory) {
+    protected FileStorage(File directory, Strategy strategy) {
         Objects.requireNonNull(directory, "directory must not be null");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory");
@@ -21,9 +22,6 @@ public class FileStorage extends AbstractStorage<File> {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
         this.directory = directory;
-    }
-
-    public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
     }
 

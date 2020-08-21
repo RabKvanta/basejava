@@ -35,28 +35,20 @@ public class MainFile {
     }
 
     public static void printAllFiles(File dir, String delimiter) {
-        if (dir.isFile()) {
-            System.out.println(dir.getName());
-            return;
-        } else {
-            System.out.println(delimiter + "DIR: " + dir.getName().toUpperCase());
-            delimiter += "     ";
-        }
 
         File[] listFiles = dir.listFiles();
 
         if (listFiles != null) {
+            System.out.println(delimiter + "DIR: " + dir.getName().toUpperCase());
+            delimiter += "     ";
             for (File file : listFiles) {
-                if (file.isFile()) {
+                if (file.isDirectory()) {
+                    printAllFiles(file, delimiter + "|");
+                } else {
                     System.out.println(delimiter + "|--- " + file.getName());
                 }
             }
 
-            for (File file : listFiles) {
-                if (file.isDirectory()) {
-                    printAllFiles(file, delimiter + "|");
-                }
-            }
         }
     }
 }

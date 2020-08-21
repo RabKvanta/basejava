@@ -2,13 +2,13 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.exception.StorageException;
 import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.storage.serializer.Strategy;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -19,36 +19,24 @@ public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
     private Strategy strategy;
 
-    protected PathStorage(String dir) {
-        directory = Paths.get(dir);
+    protected PathStorage(Path directory, Strategy strategy) {
+        this.directory = directory;
         Objects.requireNonNull(directory, "directory must not be null");
 
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
-            throw new IllegalArgumentException(dir + " is not readable/writable");
+            throw new IllegalArgumentException(directory.toString() + " is not readable/writable");
         }
-    }
-
-    public void setStrategy(Strategy strategy) {
         this.strategy = strategy;
     }
 
     @Override
     public void clear() {
-        try {
-            getStreamPath(directory).forEach(this::doDelete);
-        } catch (IOException e) {
-            throw new StorageException("Path delete error", null);
-        }
+        getStreamPath().forEach(this::doDelete);
     }
 
     @Override
     public int size() {
-        try {
-            return (int) getStreamPath(directory).count();
-        } catch (IOException e) {
-            throw new StorageException("Directory read error", null);
-        }
-
+        return (int) getStreamPath().count();
     }
 
     @Override
@@ -100,16 +88,15 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getListCopy() {
+        return getStreamPath().map(path -> doGet(path)).collect(Collectors.toList());
+    }
+
+    private Stream<Path> getStreamPath() {
         try {
-            return getStreamPath(directory).map(path -> doGet(path)).collect(Collectors.toList());
+            return Files.list(directory);
         } catch (IOException e) {
             throw new StorageException("Directory read error", null);
         }
-
-    }
-
-    private Stream<Path> getStreamPath(Path dir) throws IOException {
-        return Files.list(dir);
     }
 
 }
