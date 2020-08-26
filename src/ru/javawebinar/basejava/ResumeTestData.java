@@ -32,21 +32,21 @@ public class ResumeTestData {
         {
             put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок по Java Web"));
             put(SectionType.PERSONAL, new TextSection("Логика, креативность, инициативность."));
-            put(SectionType.ACHIEVEMENT, Arrays.asList(
+            put(SectionType.ACHIEVEMENT, new ListSection(
                     "Успех 1",
                     "Успех 2",
                     "Успех 3"));
-            put(SectionType.QUALIFICATION, Arrays.asList(
+            put(SectionType.QUALIFICATION, new ListSection(
                     "Технология 1",
                     "Технология 2",
                     "Технология 3"));
-            put(SectionType.EXPERIENCE, Arrays.asList(
+            put(SectionType.EXPERIENCE, new ExperienceSection(
                     new Experience("TOV", "https://www.tutu.ru/", new Experience.Position(2013, Month.OCTOBER, "position2", "content2"),
                             new Experience.Position(2010, Month.APRIL, 2013, Month.SEPTEMBER, "position1", "content1")),
                     new Experience("OOO\"Ku-Ku\"", "https://www.kuku.com/",
                             new Experience.Position(2010, Month.APRIL, "position2", "content2"),
                             new Experience.Position(2009, Month.AUGUST, 2010, Month.MARCH, "position1", "content1"))));
-            put(SectionType.EDUCATION, Arrays.asList(
+            put(SectionType.EDUCATION, new ExperienceSection(
                     new Experience("KPI", "https://www.kpi.ua/",
                             new Experience.Position(2005, Month.OCTOBER, 2009, Month.MARCH, "Профессор", "Научные изыскания."),
                             new Experience.Position(2004, Month.SEPTEMBER, 2005, Month.MARCH, "Аспирант", "Кафедра.")),
@@ -59,22 +59,22 @@ public class ResumeTestData {
     private static final Map<SectionType, AbstractSection> SECTIONS_UUID2 = new EnumMap(SectionType.class) {{
         put(SectionType.OBJECTIVE, new TextSection("Гудвин"));
         put(SectionType.PERSONAL, new TextSection("Великий и ужасный."));
-        put(SectionType.ACHIEVEMENT, Arrays.asList(
+        put(SectionType.ACHIEVEMENT, new ListSection(
                 "Победа 1",
                 "Победа 2",
                 "Победа 3"));
-        put(SectionType.QUALIFICATION, Arrays.asList(
+        put(SectionType.QUALIFICATION, new ListSection(
                 "Технология 1",
                 "Технология 2",
                 "Технология 3"));
-        put(SectionType.EXPERIENCE, Arrays.asList(
+        put(SectionType.EXPERIENCE, new ExperienceSection(
                 new Experience("Изумрудный город", "https://www.gudvin.ru/",
                         new Experience.Position(2013, Month.SEPTEMBER, "position2", "content2"),
                         new Experience.Position(2010, Month.AUGUST, 2013, Month.AUGUST, "position1", "content1")),
                 new Experience("OOO\"Totoshka\"", "https://www.totti.com/",
                         new Experience.Position(2010, Month.SEPTEMBER, 2001, Month.AUGUST, "position2", "content2"),
                         new Experience.Position(2001, Month.AUGUST, 2010, Month.AUGUST, "position1", "content2"))));
-        put(SectionType.EDUCATION, Arrays.asList(
+        put(SectionType.EDUCATION, new ExperienceSection(
                 new Experience("Garward", "https://www.garward.com/",
                         new Experience.Position(2000, Month.OCTOBER, 2001, Month.MARCH, "Профессор", "Научные изыскания."),
                         new Experience.Position(1997, Month.SEPTEMBER, 2000, Month.MARCH, "Аспирант", "Кафедра.")),
