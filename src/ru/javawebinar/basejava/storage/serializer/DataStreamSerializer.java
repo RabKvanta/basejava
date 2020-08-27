@@ -19,6 +19,7 @@ public class DataStreamSerializer implements StreamSerializer {
             }
             // Implements sections
             Map<SectionType, AbstractSection> sections = r.getSections();
+            dos.writeInt(sections.size());
             if (sections.size() == 0)
                 return;
             dos.writeUTF(SectionType.OBJECTIVE.name());
@@ -40,11 +41,15 @@ public class DataStreamSerializer implements StreamSerializer {
             }
 
             // Implements sections
-            if (dis.available() != 0) {
+            size = dis.readInt();
+            for (int i = 0; i < size; i++) {
                 String sectionType = dis.readUTF();
-                resume.addSection(SectionType.valueOf(sectionType), new TextSection(dis.readUTF()));
-                sectionType = dis.readUTF();
-                resume.addSection(SectionType.valueOf(sectionType), new TextSection(dis.readUTF()));
+                switch (sectionType) {
+                    case "OBJECTIVE":
+                    case "PERSONAL":
+                        resume.addSection(SectionType.valueOf(sectionType), new TextSection(dis.readUTF()));
+                        break;
+                }
             }
 
             return resume;
