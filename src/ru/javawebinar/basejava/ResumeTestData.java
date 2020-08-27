@@ -32,6 +32,7 @@ public class ResumeTestData {
         {
             put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок по Java Web"));
             put(SectionType.PERSONAL, new TextSection("Логика, креативность, инициативность."));
+
             put(SectionType.ACHIEVEMENT, new ListSection(
                     "Успех 1",
                     "Успех 2",

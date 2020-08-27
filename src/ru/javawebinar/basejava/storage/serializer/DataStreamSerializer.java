@@ -1,7 +1,6 @@
 package ru.javawebinar.basejava.storage.serializer;
 
-import ru.javawebinar.basejava.model.ContactType;
-import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.model.*;
 
 import java.io.*;
 import java.util.Map;
@@ -18,9 +17,15 @@ public class DataStreamSerializer implements StreamSerializer {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             }
-
+            // Implements sections
+            Map<SectionType, AbstractSection> sections = r.getSections();
+            if (sections.size() == 0)
+                return;
+            dos.writeUTF(SectionType.OBJECTIVE.name());
+            dos.writeUTF((sections.get(SectionType.OBJECTIVE)).toString());
+            dos.writeUTF(SectionType.PERSONAL.name());
+            dos.writeUTF((sections.get(SectionType.PERSONAL)).toString());
         }
-        // Implements sections
     }
 
     @Override
@@ -35,6 +40,12 @@ public class DataStreamSerializer implements StreamSerializer {
             }
 
             // Implements sections
+            if (dis.available() != 0) {
+                String sectionType = dis.readUTF();
+                resume.addSection(SectionType.valueOf(sectionType), new TextSection(dis.readUTF()));
+                sectionType = dis.readUTF();
+                resume.addSection(SectionType.valueOf(sectionType), new TextSection(dis.readUTF()));
+            }
 
             return resume;
         }
