@@ -3,6 +3,7 @@ package ru.javawebinar.basejava.storage.serializer;
 import ru.javawebinar.basejava.model.*;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,15 +25,14 @@ public class DataStreamSerializer implements StreamSerializer {
             dos.writeInt(sections.size());
             for (Map.Entry<SectionType, AbstractSection> entry : sections.entrySet()) {
                 SectionType type = entry.getKey();
+                dos.writeUTF(type.name());
                 switch (type) {
                     case OBJECTIVE:
                     case PERSONAL:
-                        dos.writeUTF(type.name());
                         dos.writeUTF(entry.getValue().toString());
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATION:
-                        dos.writeUTF(type.name());
                         List<String> listStrings = ((ListSection) entry.getValue()).getItems();
                         dos.writeInt(listStrings.size());
                         for (String s : listStrings) {
@@ -41,6 +41,21 @@ public class DataStreamSerializer implements StreamSerializer {
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
+                        List<Experience> experiences = ((ExperienceSection) entry.getValue()).getExperiences();
+                        dos.writeInt(experiences.size());
+                        for (Experience ex : experiences) {
+                            dos.writeUTF(ex.getHomePage().getName());
+                            dos.writeUTF(ex.getHomePage().getUrl());
+                            List<Experience.Position> positions = ex.getPositions();
+                            dos.writeInt(positions.size());
+
+                            for (Experience.Position pos : positions) {
+                                dos.writeUTF(pos.getStartDate().toString());
+                                dos.writeUTF(pos.getEndDate().toString());
+                                dos.writeUTF(pos.getTitle());
+                                dos.writeUTF(pos.getDescription());
+                            }
+                        }
                         break;
                 }
             }
@@ -78,7 +93,24 @@ public class DataStreamSerializer implements StreamSerializer {
                         break;
                     case EXPERIENCE:
                     case EDUCATION:
+                        List<Experience> experiences = new ArrayList<>();
+                        int sizeEx = dis.readInt();
+                        for (int k = 0; k < sizeEx; k++) {
+                            String linkName = dis.readUTF();
+                            String linkUrl = dis.readUTF();
+                            int sizePos = dis.readInt();
+                            List<Experience.Position> positions = new ArrayList<>();
+                            for (int j = 0; j < sizePos; j++) {
+                                positions.add(new Experience.Position(
+                                        LocalDate.parse(dis.readUTF()),
+                                        LocalDate.parse(dis.readUTF()),
+                                        dis.readUTF(), dis.readUTF()));
+                            }
+                            experiences.add(new Experience(new Link(linkName, linkUrl), positions));
+                        }
+                        resume.addSection(sectionType, new ExperienceSection(experiences));
                         break;
+
                 }
             }
 
