@@ -31,7 +31,7 @@ public class ResumeTestData {
         {
             put(SectionType.OBJECTIVE, new TextSection("Ведущий стажировок по Java Web"));
             put(SectionType.PERSONAL, new TextSection("Логика, креативность, инициативность."));
- /*
+
             put(SectionType.ACHIEVEMENT, new ListSection(
                     "Успех 1",
                     "Успех 2",
@@ -40,7 +40,7 @@ public class ResumeTestData {
                     "Технология 1",
                     "Технология 2",
                     "Технология 3"));
-
+/*
             put(SectionType.EXPERIENCE, new ExperienceSection(
                     new Experience("TOV", "https://www.tutu.ru/", new Experience.Position(2013, Month.OCTOBER, "position2", "content2"),
                             new Experience.Position(2010, Month.APRIL, 2013, Month.SEPTEMBER, "position1", "content1")),
@@ -60,7 +60,7 @@ public class ResumeTestData {
     private static final Map<SectionType, AbstractSection> SECTIONS_UUID2 = new EnumMap(SectionType.class) {{
         put(SectionType.OBJECTIVE, new TextSection("Гудвин"));
         put(SectionType.PERSONAL, new TextSection("Великий и ужасный."));
-        /*
+
         put(SectionType.ACHIEVEMENT, new ListSection(
                 "Победа 1",
                 "Победа 2",
@@ -69,6 +69,7 @@ public class ResumeTestData {
                 "Технология 1",
                 "Технология 2",
                 "Технология 3"));
+        /*
         put(SectionType.EXPERIENCE, new ExperienceSection(
                 new Experience("Изумрудный город", "https://www.gudvin.ru/",
                         new Experience.Position(2013, Month.SEPTEMBER, "position2", "content2"),

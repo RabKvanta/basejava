@@ -3,6 +3,8 @@ package ru.javawebinar.basejava.storage.serializer;
 import ru.javawebinar.basejava.model.*;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class DataStreamSerializer implements StreamSerializer {
@@ -20,12 +22,28 @@ public class DataStreamSerializer implements StreamSerializer {
             // Implements sections
             Map<SectionType, AbstractSection> sections = r.getSections();
             dos.writeInt(sections.size());
-            if (sections.size() == 0)
-                return;
-            dos.writeUTF(SectionType.OBJECTIVE.name());
-            dos.writeUTF((sections.get(SectionType.OBJECTIVE)).toString());
-            dos.writeUTF(SectionType.PERSONAL.name());
-            dos.writeUTF((sections.get(SectionType.PERSONAL)).toString());
+            for (Map.Entry<SectionType, AbstractSection> entry : sections.entrySet()) {
+                SectionType type = entry.getKey();
+                switch (type) {
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        dos.writeUTF(type.name());
+                        dos.writeUTF((sections.get(type).toString()));
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATION:
+                        dos.writeUTF(type.name());
+                        List<String> listStrings = ((ListSection) sections.get(type)).getItems();
+                        dos.writeInt(listStrings.size());
+                        for (String s : listStrings) {
+                            dos.writeUTF(s);
+                        }
+                        break;
+                    case EXPERIENCE:
+                    case EDUCATION:
+                        break;
+                }
+            }
         }
     }
 
@@ -43,11 +61,23 @@ public class DataStreamSerializer implements StreamSerializer {
             // Implements sections
             size = dis.readInt();
             for (int i = 0; i < size; i++) {
-                String sectionType = dis.readUTF();
+                SectionType sectionType = SectionType.valueOf(dis.readUTF());
                 switch (sectionType) {
-                    case "OBJECTIVE":
-                    case "PERSONAL":
-                        resume.addSection(SectionType.valueOf(sectionType), new TextSection(dis.readUTF()));
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        resume.addSection(sectionType, new TextSection(dis.readUTF()));
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATION:
+                        List<String> listStrings = new ArrayList<>();
+                        int sizeList = dis.readInt();
+                        for (int k = 0; k < sizeList; k++) {
+                            listStrings.add(dis.readUTF());
+                        }
+                        resume.addSection(sectionType, new ListSection(listStrings));
+                        break;
+                    case EXPERIENCE:
+                    case EDUCATION:
                         break;
                 }
             }
