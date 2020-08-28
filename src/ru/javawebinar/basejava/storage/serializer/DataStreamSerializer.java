@@ -28,12 +28,12 @@ public class DataStreamSerializer implements StreamSerializer {
                     case OBJECTIVE:
                     case PERSONAL:
                         dos.writeUTF(type.name());
-                        dos.writeUTF((sections.get(type).toString()));
+                        dos.writeUTF(entry.getValue().toString());
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATION:
                         dos.writeUTF(type.name());
-                        List<String> listStrings = ((ListSection) sections.get(type)).getItems();
+                        List<String> listStrings = ((ListSection) entry.getValue()).getItems();
                         dos.writeInt(listStrings.size());
                         for (String s : listStrings) {
                             dos.writeUTF(s);
