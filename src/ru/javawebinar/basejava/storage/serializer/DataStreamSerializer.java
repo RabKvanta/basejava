@@ -35,7 +35,7 @@ public class DataStreamSerializer implements StreamSerializer {
 
                     case ACHIEVEMENT:
                     case QUALIFICATION:
-                        writeWithException(((ListSection) entry.getValue()).getItems(), dos, s -> dos.writeUTF(s));
+                        writeWithException(((ListSection) entry.getValue()).getItems(), dos, dos::writeUTF);
                         break;
 
                     case EXPERIENCE:
@@ -87,7 +87,7 @@ public class DataStreamSerializer implements StreamSerializer {
     private <T> List<T> readWithException(DataInputStream dis, FuncRead<T> funcRead) throws IOException {
         int size = dis.readInt();
         List<T> list = new ArrayList<>();
-        for (int k = 0; k < size; k++) {
+        for (int i = 0; i < size; i++) {
             list.add(funcRead.read());
         }
         return list;
@@ -95,7 +95,7 @@ public class DataStreamSerializer implements StreamSerializer {
 
     private void addElementResumeWithException(DataInputStream dis, FuncSection func) throws IOException {
         int size = dis.readInt();
-        for (int k = 0; k < size; k++) {
+        for (int i = 0; i < size; i++) {
             func.addElement();
         }
 
@@ -123,7 +123,7 @@ public class DataStreamSerializer implements StreamSerializer {
 
             case ACHIEVEMENT:
             case QUALIFICATION:
-                return new ListSection(readWithException(dis, () -> dis.readUTF()));
+                return new ListSection(readWithException(dis, dis::readUTF));
 
             case EXPERIENCE:
             case EDUCATION:
