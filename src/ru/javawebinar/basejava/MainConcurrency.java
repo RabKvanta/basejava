@@ -1,16 +1,20 @@
 package ru.javawebinar.basejava;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainConcurrency {
     public static final int THREADS_NUMBER = 10000;
     private int counter;
     private static final Object LOCK = new Object();
+    private static final Object LOCK1 = new Object();
+    private static final Object LOCK2 = new Object();
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
+
+        deadLock();
+
+/*
         System.out.println(Thread.currentThread().getName());
+
 
         Thread thread0 = new Thread() {
             @Override
@@ -59,6 +63,7 @@ public class MainConcurrency {
             }
         });
         System.out.println(mainConcurrency.counter);
+*/
     }
 
     private synchronized void inc() {
@@ -69,5 +74,48 @@ public class MainConcurrency {
 //                readFile
 //                ...
 //        }
+    }
+
+
+    private static void deadLock() {
+        System.out.println("Example DeadLock:");
+
+        new Thread(() -> {
+            String name = Thread.currentThread().getName();
+            //  System.out.println(name + " LOCK1 WAIT ...");
+            synchronized (LOCK1) {
+                System.out.println(name + " LOCK1 BUSY ");
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println(name + " LOCK2 WAIT... ");
+                synchronized (LOCK2) {
+                    System.out.println(name + " LOCK2 BUSY");
+                }
+            }
+        }).start();
+
+        new Thread(() -> {
+            String name = Thread.currentThread().getName();
+            //    System.out.println(name + " LOCK2 WAIT");
+            synchronized (LOCK2) {
+                System.out.println(name + " LOCK2 BUSY");
+                try {
+                    Thread.sleep(100);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                System.out.println(name + " LOCK1 WAIT...");
+                synchronized (LOCK1) {
+                    System.out.println(name + " LOCK1 BUSY");
+                }
+            }
+        }).start();
+
     }
 }

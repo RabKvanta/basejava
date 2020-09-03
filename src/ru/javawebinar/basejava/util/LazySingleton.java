@@ -1,4 +1,4 @@
-package ru.javawebinar.basejava;
+package ru.javawebinar.basejava.util;
 
 public class LazySingleton {
     volatile private static LazySingleton INSTANCE;
