@@ -4,19 +4,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class MainStream {
     public static void main(String[] args) {
-        int[] intArray = {3, 2, 7, 5, 2, 9, 1, 7};
+        int[] intArray = {3, 2, 7, 5, 2, 9, 1, 7, 4, 4,};
         int minValue = minValue(intArray);
         System.out.println(minValue);
 
-        System.out.println(oddOrEven(Arrays.asList(88, 13, 23, 454, 6, 7, 8)));
+        System.out.println(oddOrEven(Arrays.asList(88, 13, 23, 454, 6, 7, 8, -1)));
 
-        //  oddOrEvenStream(Arrays.asList(1, 2, 3, 4, 6, 7, 8));
+        System.out.println(oddOrEvenStream(Arrays.asList(88, 13, 23, 454, 6, 7, 8, -1)));
     }
 
     public static int minValue(int[] values) {
@@ -39,28 +38,13 @@ public class MainStream {
     }
 
     public static List<Integer> oddOrEvenStream(List<Integer> integers) {
-        List<Integer> oddList = new ArrayList<>();
-        List<Integer> evenList = new ArrayList<>();
-        AtomicInteger sum = new AtomicInteger();
-
-       /* integers.stream().forEach(x -> {
-            sum.addAndGet(x);
-            if (x % 2 == 0) {
-                evenList.add(x);
-            } else {
-                oddList.add(x);
-            }
-        });*/
-
-        Map<Boolean, List<Integer>> evenOddMap = integers.stream().collect(Collectors.partitioningBy(e -> e % 2 == 0));
-        Map<Integer, List<Integer>> evenOdd = integers.stream().collect(Collectors.groupingBy(i -> i & 1));
-
-        // Map<Integer, Integer> collect = integers.stream().collect(Collectors.groupingBy(i -> i & 1, Collectors.summingInt(Integer::intValue)));
-
-        //evenList = new ArrayList<>(map.get(true));
-        //oddList = new ArrayList<>(map.get(false));
-
-        return null;
+        /*return integers.stream().filter(integers.stream().mapToInt(Integer::intValue)
+                .sum() % 2 != 0 ? n -> n % 2 == 0 : n -> n % 2 != 0).collect(Collectors.toList()); */
+        // Делим стрим на 2 коллекции - четных и нечетный чисел
+        Map<Boolean, List<Integer>> map = integers.stream()
+                .collect(Collectors.partitioningBy(x -> x % 2 == 0));
+        //считаем кол-во элементов в коллекции с нечетными числами, если их нечетное количество - вся сумма нечетная
+        return map.get(map.get(false).size() % 2 != 0);
     }
 
 }
