@@ -10,7 +10,8 @@ public class MainConcurrency {
 
     public static void main(String[] args) {
 
-        deadLock();
+        deadLock(LOCK1, LOCK2);
+        deadLock(LOCK2, LOCK1);
 
 /*
         System.out.println(Thread.currentThread().getName());
@@ -77,13 +78,12 @@ public class MainConcurrency {
     }
 
 
-    private static void deadLock() {
-        System.out.println("Example DeadLock:");
+    private static void deadLock(Object lock1, Object lock2) {
 
         new Thread(() -> {
             String name = Thread.currentThread().getName();
             //  System.out.println(name + " LOCK1 WAIT ...");
-            synchronized (LOCK1) {
+            synchronized (lock1) {
                 System.out.println(name + " LOCK1 BUSY ");
                 try {
                     Thread.sleep(100);
@@ -92,30 +92,10 @@ public class MainConcurrency {
                 }
 
                 System.out.println(name + " LOCK2 WAIT... ");
-                synchronized (LOCK2) {
+                synchronized (lock2) {
                     System.out.println(name + " LOCK2 BUSY");
                 }
             }
         }).start();
-
-        new Thread(() -> {
-            String name = Thread.currentThread().getName();
-            //    System.out.println(name + " LOCK2 WAIT");
-            synchronized (LOCK2) {
-                System.out.println(name + " LOCK2 BUSY");
-                try {
-                    Thread.sleep(100);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                System.out.println(name + " LOCK1 WAIT...");
-                synchronized (LOCK1) {
-                    System.out.println(name + " LOCK1 BUSY");
-                }
-            }
-        }).start();
-
     }
 }
