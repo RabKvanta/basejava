@@ -133,7 +133,7 @@ public class DataStreamSerializer implements StreamSerializer {
                                 LocalDate.parse(dis.readUTF()),
                                 dis.readUTF(), dis.readUTF()))))));
             default:
-                return null;
+                throw new IllegalStateException();
         }
 
     }

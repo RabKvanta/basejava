@@ -9,7 +9,8 @@ import java.util.stream.IntStream;
 
 public class MainStream {
     public static void main(String[] args) {
-        int[] intArray = {3, 2, 7, 5, 2, 9, 1, 7, 4, 4,};
+        //int[] intArray = {3, 2, 7, 5, 2, 9, 1, 7, 4, 4,};
+        int[] intArray = {};
         int minValue = minValue(intArray);
         System.out.println(minValue);
 
@@ -19,7 +20,10 @@ public class MainStream {
     }
 
     public static int minValue(int[] values) {
-        return IntStream.of(values).distinct().sorted().reduce((sum, s) -> sum * 10 + s).getAsInt();
+        return IntStream.of(values)
+                .distinct()
+                .sorted()
+                .reduce(0, (sum, s) -> sum * 10 + s);
     }
 
     public static List<Integer> oddOrEven(List<Integer> integers) {
