@@ -1,10 +1,8 @@
 package ru.javawebinar.basejava.sql;
 
 import org.postgresql.util.PSQLException;
-import org.postgresql.util.ServerErrorMessage;
 import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.StorageException;
-import ru.javawebinar.basejava.storage.Storage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,8 +22,7 @@ public class SqlHelper {
             return returnValue;
 
         } catch (SQLException e) {
-            //  System.out.println("sqlCommand " + e.getSQLState()+" "+e.getErrorCode());
-
+//            http://www.postgresql.org/docs/9.3/static/errcodes-appendix.html
             if (e.getSQLState().equals("23505")) {
                 throw new ExistStorageException((PSQLException) e);
             } else throw new StorageException(e);

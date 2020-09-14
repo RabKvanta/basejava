@@ -13,23 +13,23 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 public abstract class AbstractStorageTest {
     protected static final File STORAGE_DIR = Config.get().getStorageDir();//new File(".\\storage");
 
     protected Storage storage;
-    private static final String UUID_1 = "uuid1";
+    private static final String UUID_1 = "uuid1"; // = UUID.randomUUID().toString();
     private static final Resume RESUME_1 = ResumeTestData.getResume(UUID_1, "Name1");
 
-    private static final String UUID_2 = "uuid2";
+    private static final String UUID_2 = "uuid2"; // = UUID.randomUUID().toString();
     private static final Resume RESUME_2 = ResumeTestData.getResume(UUID_2, "Name2");
 
-    private static final String UUID_3 = "uuid3";
+    private static final String UUID_3 = "uuid3"; // = UUID.randomUUID().toString();
     private static final Resume RESUME_3 = ResumeTestData.getResume(UUID_3, "Name3");
 
-    private static final String UUID_4 = "uuid4";
+    private static final String UUID_4 = "uuid4"; // = UUID.randomUUID().toString();
     private static final Resume RESUME_4 = ResumeTestData.getResume(UUID_4, "Name4");
 
     protected AbstractStorageTest(Storage storage) {
