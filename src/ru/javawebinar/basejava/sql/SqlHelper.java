@@ -16,8 +16,7 @@ public class SqlHelper {
     public <T> T execute(String sqlCommand, SqlProcess<T> sqlProcess) {
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sqlCommand)) {
-            T returnValue = sqlProcess.execute(ps);
-            return returnValue;
+            return sqlProcess.execute(ps);
 
         } catch (SQLException e) {
             throw ExceptionUtil.convertException(e);
