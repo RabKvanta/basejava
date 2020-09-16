@@ -92,15 +92,15 @@ public class ResumeTestData {
 
     public static Resume getResume(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
-        /*
+
         switch (uuid) {
             case "uuid1":
                 resume.setContacts(CONTACTS_UUID1);
-                resume.setSections(SECTIONS_UUID1);
+                //       resume.setSections(SECTIONS_UUID1);
                 break;
             case "uuid2":
                 resume.setContacts(CONTACTS_UUID2);
-                resume.setSections(SECTIONS_UUID2);
+                //       resume.setSections(SECTIONS_UUID2);
                 break;
             case "uuid3":
                 resume.setContacts(CONTACTS_UUID3);
@@ -108,7 +108,7 @@ public class ResumeTestData {
             case "uuid4":
                 resume.setContacts(CONTACTS_UUID4);
                 break;
-        }*/
+        }
         return resume;
     }
 
