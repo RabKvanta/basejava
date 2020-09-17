@@ -6,9 +6,7 @@ import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.sql.SqlHelper;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SqlStorage implements Storage {
     private final SqlHelper sqlHelper;
@@ -105,27 +103,19 @@ public class SqlStorage implements Storage {
                         "        ON r.uuid = c.resume_uuid " +
                         "  ORDER BY full_name,uuid",
                 ps -> {
-                    List<Resume> listResumes = new ArrayList<>();
-                    ResultSet rs = ps.executeQuery();
-                    String uuid = "";
-                    Resume r = null;
+                    Map<String, Resume> mapResumes = new LinkedHashMap<>();
 
+                    ResultSet rs = ps.executeQuery();
                     while (rs.next()) {
-                        if (!uuid.equals(rs.getString("uuid").trim())) {
-                            if (r != null) {
-                                listResumes.add(r);
-                            }
-                            uuid = rs.getString("uuid").trim();
+                        String uuid = rs.getString("uuid").trim();
+                        Resume r = mapResumes.get(uuid);
+                        if (r == null) {
                             r = new Resume(uuid, rs.getString("full_name"));
                         }
-                        if (rs.getString("resume_uuid") != null) {
-                            addContact(rs, r);
-                        }
+                        addContact(rs, r);
+                        mapResumes.put(uuid, r);
                     }
-                    if (r != null) {
-                        listResumes.add(r);
-                    }
-                    return listResumes;
+                    return new ArrayList<>(mapResumes.values());
                 });
 
     }
@@ -151,8 +141,10 @@ public class SqlStorage implements Storage {
     }
 
     private void addContact(ResultSet rs, Resume r) throws SQLException {
-        String value = rs.getString("value");
-        ContactType type = ContactType.valueOf(rs.getString("type"));
-        r.addContact(type, value);
+        if (rs.getString("resume_uuid") != null) {
+            String value = rs.getString("value");
+            ContactType type = ContactType.valueOf(rs.getString("type"));
+            r.addContact(type, value);
+        }
     }
 }
