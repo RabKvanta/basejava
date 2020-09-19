@@ -104,11 +104,7 @@ public class SqlStorage implements Storage {
                 ResultSet rs = ps.executeQuery();
                 while (rs.next()) {
                     String uuid = rs.getString("uuid");
-                    Resume r = resumes.get(uuid);
-                    if (r == null) {
-                        r = new Resume(uuid, rs.getString("full_name"));
-                        resumes.put(uuid, r);
-                    }
+                    resumes.putIfAbsent(uuid, new Resume(uuid, rs.getString("full_name")));
                 }
 
             }
