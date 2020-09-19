@@ -99,7 +99,7 @@ public class ResumeTestData {
                 break;
             case "uuid2":
                 resume.setContacts(CONTACTS_UUID2);
-                //       resume.setSections(SECTIONS_UUID2);
+                resume.setSections(SECTIONS_UUID2);
                 break;
             case "uuid3":
                 resume.setContacts(CONTACTS_UUID3);
