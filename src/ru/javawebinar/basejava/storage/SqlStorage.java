@@ -11,6 +11,13 @@ public class SqlStorage implements Storage {
     private final SqlHelper sqlHelper;
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
+        // Register JDBC driver
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("PostgreSQL JDBC Driver is not found. Include it in your library path ");
+            e.printStackTrace();
+        }
         sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
     }
 
@@ -36,8 +43,8 @@ public class SqlStorage implements Storage {
                         r = new Resume(uuid, rs.getString(1));
                     }
 
-                    getItemsResume(conn, "contact", uuid, rs -> addContact(rs, r));
-                    getItemsResume(conn, "section", uuid, rs -> addSection(rs, r));
+                    getItemsResume(conn, "SELECT * FROM contact WHERE resume_uuid =?", uuid, rs -> addContact(rs, r));
+                    getItemsResume(conn, "SELECT * FROM section WHERE resume_uuid =?", uuid, rs -> addSection(rs, r));
                     return r;
                 }
         );
@@ -55,10 +62,10 @@ public class SqlStorage implements Storage {
                             throw new NotExistStorageException(uuid);
                         }
                     }
-                    deleteRows(conn, "contact", uuid);
+                    deleteRows(conn, "DELETE  FROM contact  WHERE resume_uuid = ? ", uuid);
                     insertContact(conn, r);
 
-                    deleteRows(conn, "section", uuid);
+                    deleteRows(conn, "DELETE  FROM section  WHERE resume_uuid = ? ", uuid);
                     insertSection(conn, r);
 
                     return null;
@@ -108,10 +115,10 @@ public class SqlStorage implements Storage {
                 }
 
             }
-            getItemsResume(conn, "contact", rs -> addContact(rs, resumes.get(rs.getString("resume_uuid"))));
 
+            getItemsResume(conn, "SELECT * FROM contact", rs -> addContact(rs, resumes.get(rs.getString("resume_uuid"))));
 
-            getItemsResume(conn, "section", rs -> addSection(rs, resumes.get(rs.getString("resume_uuid"))));
+            getItemsResume(conn, "SELECT * FROM section", rs -> addSection(rs, resumes.get(rs.getString("resume_uuid"))));
 
             return new ArrayList<>(resumes.values());
         });
@@ -161,8 +168,8 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void getItemsResume(Connection conn, String table, String uuid, AddingItem addItem) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement(String.format("SELECT * FROM %s WHERE resume_uuid =?", table))) {
+    private void getItemsResume(Connection conn, String SqlRqst, String uuid, AddingItem addItem) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement(SqlRqst)) {
             ps.setString(1, uuid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -171,8 +178,8 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void getItemsResume(Connection conn, String table, AddingItem addItem) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement(String.format("SELECT * FROM %s ", table))) {
+    private void getItemsResume(Connection conn, String SqlRqst, AddingItem addItem) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement(SqlRqst)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 addItem.execute(rs);
@@ -184,8 +191,8 @@ public class SqlStorage implements Storage {
         void execute(ResultSet rs) throws SQLException;
     }
 
-    private void deleteRows(Connection conn, String table, String uuid) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement(String.format("DELETE  FROM %s  WHERE resume_uuid = ? ", table))) {
+    private void deleteRows(Connection conn, String SqlRqst, String uuid) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement(SqlRqst)) {
             ps.setString(1, uuid);
             ps.execute();
         }
