@@ -1,21 +1,24 @@
 package ru.javawebinar.basejava.web;
 
 import ru.javawebinar.basejava.Config;
+import ru.javawebinar.basejava.model.ContactType;
 import ru.javawebinar.basejava.model.Resume;
 import ru.javawebinar.basejava.storage.Storage;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.stream.Collectors;
+import java.io.Writer;
 
 public class ResumeServlet extends HttpServlet {
-    private Storage storage;
+    private Storage storage; // = Config.get().getStorage();
 
     @Override
-    public void init() {
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
         storage = Config.get().getStorage();
     }
 
@@ -27,47 +30,31 @@ public class ResumeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
-        String uuid = request.getParameter("uuid");
-        String htmlContent = "<!DOCTYPE html>\n" +
-                "<html>" +
-                " <head>" +
-                "  <meta charset=\"utf-8\">\n" +
-                "<link rel=\"stylesheet\" href=\"css/style.css\">" +
-                "  <title>Тег table</title>\n" +
-                //" <style>" +
-                //   " table {  width: 50%; /* Ширина таблицы */ + " +
-                //  " background: #A6C9E2; /* Цвет фона таблицы */" +
-                //   " color: #2E6E9E; /* Цвет текста */" +
-                //   " border-spacing: 3px; /* Расстояние между ячейками */}" +
-                //   "td, th {  background:  #A6C9E2; /* Цвет фона ячеек */     padding: 5px; /* Поля вокруг текста */ }" +
-                //   "</style>" +
-                " </head>" +
-                " <body>" +
-                //"  <table border=\"1\">\n" +
-                "  <table>\n" +
-                "   <tr>" +
-                "    <th>UUID </th>\n" +
-                "    <th>Full Name</th>\n" +
-                "   </tr>";
-
-
-        htmlContent += uuid == null ?
-                storage.getAllSorted()
-                        .stream()
-                        .map(this::insertRow)
-                        .collect(Collectors.joining()) : insertRow(storage.get(uuid));
-        htmlContent +=  " </table>" +
-                        " </body>" +
-                        "</html>";
-        PrintWriter out = response.getWriter();
-        out.println(htmlContent);
-
-    }
-
-    private String insertRow(Resume r) {
-        return "   <tr>" +
-                "    <td>" + r.getUuid() + "</td>" +
-                "    <td>" + r.getFullName() + "</td>" +
-                "  </tr>";
+        Writer writer = response.getWriter();
+        writer.write(
+                "<html>\n" +
+                        "<head>\n" +
+                        "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
+                        "    <link rel=\"stylesheet\" href=\"css/style.css\">\n" +
+                        "    <title>Список всех резюме</title>\n" +
+                        "</head>\n" +
+                        "<body>\n" +
+                        "<section>\n" +
+                        "<table border=\"1\" cellpadding=\"8\" cellspacing=\"0\">\n" +
+                        "    <tr>\n" +
+                        "        <th>Имя</th>\n" +
+                        "        <th>Email</th>\n" +
+                        "    </tr>\n");
+        for (Resume resume : storage.getAllSorted()) {
+            writer.write(
+                    "<tr>\n" +
+                            "     <td><a href=\"resume?uuid=" + resume.getUuid() + "\">" + resume.getFullName() + "</a></td>\n" +
+                            "     <td>" + resume.getContact(ContactType.EMAIL) + "</td>\n" +
+                            "</tr>\n");
+        }
+        writer.write("</table>\n" +
+                "</section>\n" +
+                "</body>\n" +
+                "</html>\n");
     }
 }

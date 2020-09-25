@@ -3,6 +3,7 @@ package ru.javawebinar.basejava;
 import ru.javawebinar.basejava.model.*;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
@@ -69,7 +70,7 @@ public class ResumeTestData {
                 "Технология 1",
                 "Технология 2",
                 "Технология 3"));
-/*
+
         put(SectionType.EXPERIENCE, new ExperienceSection(
                 new Experience("Изумрудный город", "https://www.gudvin.ru/",
                         new Experience.Position(2013, Month.SEPTEMBER, "position2", "content2"),
@@ -85,7 +86,7 @@ public class ResumeTestData {
                         new Experience.Position(1996, Month.OCTOBER, 1997, Month.MARCH, "Laborant", "RTF facultet"),
                         new Experience.Position(1990, Month.SEPTEMBER, 1996, Month.MARCH, "Student", "RTF facultet"))));
 
-*/
+
     }};
 
 
