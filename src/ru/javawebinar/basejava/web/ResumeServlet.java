@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.stream.Collectors;
 
 public class ResumeServlet extends HttpServlet {
     private Storage storage;
@@ -54,7 +55,7 @@ public class ResumeServlet extends HttpServlet {
                 storage.getAllSorted()
                         .stream()
                         .map(this::insertRow)
-                        .reduce("", (s1, s2) -> s1 + s2) : insertRow(storage.get(uuid));
+                        .collect(Collectors.joining()) : insertRow(storage.get(uuid));
         htmlContent +=  " </table>" +
                         " </body>" +
                         "</html>";

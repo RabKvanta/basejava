@@ -168,8 +168,8 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void getItemsResume(Connection conn, String SqlRqst, String uuid, AddingItem addItem) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement(SqlRqst)) {
+    private void getItemsResume(Connection conn, String sqlRqst, String uuid, AddingItem addItem) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement(sqlRqst)) {
             ps.setString(1, uuid);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -178,8 +178,8 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private void getItemsResume(Connection conn, String SqlRqst, AddingItem addItem) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement(SqlRqst)) {
+    private void getItemsResume(Connection conn, String sqlRqst, AddingItem addItem) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement(sqlRqst)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 addItem.execute(rs);
@@ -191,8 +191,8 @@ public class SqlStorage implements Storage {
         void execute(ResultSet rs) throws SQLException;
     }
 
-    private void deleteRows(Connection conn, String SqlRqst, String uuid) throws SQLException {
-        try (PreparedStatement ps = conn.prepareStatement(SqlRqst)) {
+    private void deleteRows(Connection conn, String sqlRqst, String uuid) throws SQLException {
+        try (PreparedStatement ps = conn.prepareStatement(sqlRqst)) {
             ps.setString(1, uuid);
             ps.execute();
         }
