@@ -59,11 +59,11 @@
                      <ol>
                  <c:forEach var="exp" items="<%=((ExperienceSection) section).getExperiences()%>">
                      <li>
-                     <c:if test="type==SectionType.EDUCATION">
-                         <dt>"Место учебы"></dt>
+                     <c:if test="${type==SectionType.EDUCATION}">
+                         <dt>Место учебы</dt>
                      </c:if>
-                      <c:if test="type==SectionType.EDUCATION">
-                             <dt>"Место работы"></dt>
+                      <c:if test="${type==SectionType.EXPERIENCE}" >
+                          <dt>Место работы</dt>
                       </c:if>
 
                      <jsp:useBean id="exp" type="ru.javawebinar.basejava.model.Experience"/>
