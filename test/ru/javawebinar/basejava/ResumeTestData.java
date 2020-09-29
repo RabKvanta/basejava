@@ -41,7 +41,7 @@ public class ResumeTestData {
                     "Технология 1",
                     "Технология 2",
                     "Технология 3"));
-/*
+
             put(SectionType.EXPERIENCE, new ExperienceSection(
                     new Experience("TOV", "https://www.tutu.ru/", new Experience.Position(2013, Month.OCTOBER, "position2", "content2"),
                             new Experience.Position(2010, Month.APRIL, 2013, Month.SEPTEMBER, "position1", "content1")),
@@ -55,7 +55,7 @@ public class ResumeTestData {
                     new Experience("MGU", "https://www.mgu.com/",
                             new Experience.Position(2000, Month.OCTOBER, 2002, Month.MARCH, "Laborant", "IT facultet"),
                             new Experience.Position(1995, Month.SEPTEMBER, 2000, Month.MARCH, "Student", "IT facultet"))));
-*/
+
         }
     };
     private static final Map<SectionType, AbstractSection> SECTIONS_UUID2 = new EnumMap(SectionType.class) {{
@@ -75,7 +75,7 @@ public class ResumeTestData {
                 new Experience("Изумрудный город", "https://www.gudvin.ru/",
                         new Experience.Position(2013, Month.SEPTEMBER, "position2", "content2"),
                         new Experience.Position(2010, Month.AUGUST, 2013, Month.AUGUST, "position1", "content1")),
-                new Experience("OOO\"Totoshka\"", "https://www.totti.com/",
+                new Experience("OOO \"Totoshka\"", "https://www.totti.com/",
                         new Experience.Position(2010, Month.SEPTEMBER, 2001, Month.AUGUST, "position2", "content2"),
                         new Experience.Position(2001, Month.AUGUST, 2010, Month.AUGUST, "position1", "content2"))));
         put(SectionType.EDUCATION, new ExperienceSection(
