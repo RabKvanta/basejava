@@ -42,8 +42,7 @@
 
                 </c:when>
                 <c:when test="${type==SectionType.ACHIEVEMENT || type==SectionType.QUALIFICATION}">
-                    <tr>
-                            <td>
+                    <tr> <td>
                                 <h3>${type.title}</h3>
                             <ul>
                                 <c:forEach var="item" items="<%=((ListSection) section).getItems()%>">

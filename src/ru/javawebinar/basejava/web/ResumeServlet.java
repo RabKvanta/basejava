@@ -3,6 +3,7 @@ package ru.javawebinar.basejava.web;
 import ru.javawebinar.basejava.Config;
 import ru.javawebinar.basejava.model.*;
 import ru.javawebinar.basejava.storage.Storage;
+import ru.javawebinar.basejava.util.DateUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class ResumeServlet extends HttpServlet {
     private Storage storage; // = Config.get().getStorage();
@@ -39,7 +41,7 @@ public class ResumeServlet extends HttpServlet {
                 case PERSONAL:
                 case OBJECTIVE:
                     String value = request.getParameter(type.name());
-                    if (value != null & value.trim().length() != 0) {
+                    if (value != null && value.trim().length() != 0) {
                         r.addSection(type, new TextSection(value));
                     } else {
                         r.getSections().remove(type);
@@ -48,7 +50,7 @@ public class ResumeServlet extends HttpServlet {
                 case ACHIEVEMENT:
                 case QUALIFICATION:
                     String[] values = request.getParameterValues(type.name());
-                    if (values != null & values.length != 0) {
+                    if (values != null && values.length != 0) {
                         r.addSection(type, new ListSection(values));
                     } else {
                         r.getSections().remove(type);
@@ -56,6 +58,20 @@ public class ResumeServlet extends HttpServlet {
                     break;
                 case EDUCATION:
                 case EXPERIENCE:
+                    String name = request.getParameter(type.name() + "name");
+                    if (name != null) {
+                        String url = request.getParameter(type.name() + "url");
+                        String start = request.getParameter(type.name() + 0 + "start");
+                        String end = request.getParameter(type.name() + 0 + "end");
+                        String title = request.getParameter(type.name() + 0 + "title");
+                        String description = request.getParameter(type.name() + 0 + "dscr");
+                        LocalDate startDate = DateUtil.parse(start);
+                        LocalDate endDate = DateUtil.parse(end);
+                        Experience exp = new Experience(name, url, new Experience.Position(startDate, endDate, title, description));
+                        r.addSection(type, new ExperienceSection(exp));
+                    } else {
+                        r.getSections().remove(type);
+                    }
                     break;
                 default:
                     break;

@@ -25,67 +25,105 @@
         </dl>
         <h3>Контакты:</h3>
         <c:forEach var="type" items="<%=ContactType.values()%>">
-               <dl>
-                  <dt>${type.title}</dt>
-                  <dd><input type="text" name="${type.name()}" size=30 value="${resume.getContact(type)}"></dd>
-               </dl>
+            <dl>
+                <dt>${type.title}</dt>
+                <dd><input type="text" name="${type.name()}" size=30 value="${resume.getContact(type)}"></dd>
+            </dl>
         </c:forEach>
         <h3>Секции:</h3>
 
         <c:forEach var="type" items="<%=SectionType.values()%>">
+            <jsp:useBean id="type" type="ru.javawebinar.basejava.model.SectionType"/>
+            <dl>
+            <dt>${type.title}</dt>
+            <c:if test="${resume.getSection(type)!=null}">
+                <c:set var="section" value="${resume.getSection(type)}"/>
+                <jsp:useBean id="section" type="ru.javawebinar.basejava.model.AbstractSection"/>
 
-            <c:set var="section" value="${resume.getSection(type)}"/>
-            <jsp:useBean id="section" type="ru.javawebinar.basejava.model.AbstractSection"/>
+                <c:choose>
+                    <c:when test="${type==SectionType.PERSONAL || type==SectionType.OBJECTIVE}">
+                    <dd><input type="text" name="${type.name()}" size=30  value="<%=((TextSection)section).getContent()%>"></dd>
+                    </c:when>
 
-             <c:choose>
-                 <c:when test="${type==SectionType.PERSONAL || type==SectionType.OBJECTIVE}">
-                 <dl>
-                     <dt>${type.title}</dt>
-                     <dd><input type="text" name="${type.name()}" size=30 value = "<%=((TextSection) section).getContent()%>"></dd>
-                 </dl>
-             </c:when>
-                 <c:when test="${type==SectionType.ACHIEVEMENT || type==SectionType.QUALIFICATION}">
-                     <dl>
-                         <dt>${type.title}</dt><br/>
-                     <c:forEach var="item" items="<%=((ListSection) section).getItems()%>">
-                          <dd><input type="text" name="${type.name()}" size=30 value= "${item}"></dd><br/>
-                     </c:forEach>
-                     </dl>
-                 </c:when>
+                    <c:when test="${type==SectionType.ACHIEVEMENT || type==SectionType.QUALIFICATION}">
+                        <br><c:forEach var="item" items="<%=((ListSection) section).getItems()%>">
+                        <dd><input type="text" name="${type.name()}" size=30 value="${item}"></dd><br/>
+                        </c:forEach><br/>
+                    </c:when>
 
-                 <c:when test="${type==SectionType.EDUCATION || type==SectionType.EXPERIENCE}">
-                     <dl>
-                     <dt>${type.title}</dt><br/>
-                     <ol>
-                 <c:forEach var="exp" items="<%=((ExperienceSection) section).getExperiences()%>">
-                     <li>
-                     <c:if test="${type==SectionType.EDUCATION}">
-                         <dt>Место учебы</dt>
-                     </c:if>
-                      <c:if test="${type==SectionType.EXPERIENCE}" >
-                          <dt>Место работы</dt>
-                      </c:if>
+                    <c:when test="${type==SectionType.EDUCATION || type==SectionType.EXPERIENCE}">
+                        <br/>
+                            <ol>
+                            <c:forEach var="exp" items="<%=((ExperienceSection) section).getExperiences()%>">
+                            <jsp:useBean id="exp" type="ru.javawebinar.basejava.model.Experience"/>
+                                <c:set var="cnt" value="0"/>
+                                <li>
+                                    <dt><%=(type==SectionType.EDUCATION)?"Место учебы:":"Место работы:"%></dt>
+                                <dd><input type="text" name="${type.name()}name" size=45 value="${exp.homePage.name}"></dd>
+                                    <dt>WWW:</dt>
+                                <dd><input type="text" name="${type.name()}url" size=30 value="${exp.homePage.url}"></dd>
+                                <br><br/>
+                                <c:forEach var="position" items="${exp.positions}">
+                                   <jsp:useBean id="position" type="ru.javawebinar.basejava.model.Experience.Position"/>
+                                    <dt>Период c </dt>
+                                    <dd><input type="text" name="${type.name()}${cnt}start" size=30 value="<%=DateUtil.toString(position.getStartDate())%>"></dd>
+                                    <dt>по </dt>
+                                    <dd><input type="text" name="${type.name()}${cnt}end" size=30 value="<%=DateUtil.toString(position.getEndDate())%>"></dd>
+                                    <br><dt> Должность: </dt>
+                                    <dd><input type="text" name="${type.name()}${cnt}title" size=30 value="${position.title}"></dd>
+                                    <dt>Описание: </dt>
+                                    <dd><input type="text" name="${type.name()}${cnt}dscr" size=30 value="${position.description}"></dd><br/>
 
-                     <jsp:useBean id="exp" type="ru.javawebinar.basejava.model.Experience"/>
-                         <dd><input type="text" name="${type.name()}" size=30 value= "${exp.homePage.name}"></dd>
-                         <dd><input type="text" name="${type.name()}" size=30 value= "${exp.homePage.url}"></dd><br><br/>
-                     <c:forEach var="position" items="${exp.positions}">
-                         <jsp:useBean id="position" type="ru.javawebinar.basejava.model.Experience.Position"/>
-                             <dd><input type="text"  name ="${type.name()}" size=30 value= "<%=DateUtil.toString(position.getStartDate())%>"></dd>
-                             <dd><input type="text"  name ="${type.name()}" size=30 value= "<%=DateUtil.toString(position.getEndDate())%>"></dd>
-                             <dd><input type="text"  name ="${type.name()}" size=30 value= "${position.title}"></dd>
-                             <dd><input type="text"  name ="${type.name()}" size=30 value= "${position.description}"></dd><br/>
-                     </c:forEach>
-                         <br><br/>
-                     </li>
-                 </c:forEach>
-                     </ol>
-                     </dl>
-                 </c:when>
-                 <c:otherwise>
-                     Ни одно условие не верно.
-                 </c:otherwise>
-             </c:choose>
+                                    </c:forEach>
+                                    <br><br/>
+                                </li>
+                            </c:forEach>
+                        </ol>
+                    </c:when>
+                    <c:otherwise>
+                        Ни одно условие не верно.
+                    </c:otherwise>
+                     </c:choose>
+                    </c:if>
+                <c:if test="${resume.getSection(type)==null}">
+
+                    <c:choose>
+                        <c:when test="${type==SectionType.PERSONAL || type==SectionType.OBJECTIVE}">
+                            <dd><input type="text" name="${type.name()}" size=30  value=""></dd>
+                        </c:when>
+
+                        <c:when test="${type==SectionType.ACHIEVEMENT || type==SectionType.QUALIFICATION}">
+                            <dd><input type="text" name="${type.name()}" size=30 value="${item}"></dd><br/>
+                        </c:when>
+
+                        <c:when test="${type==SectionType.EDUCATION || type==SectionType.EXPERIENCE}">
+                            <br/>
+                            <ol>
+                                    <li>
+                                        <dt><%=(type==SectionType.EDUCATION)?"Место учебы:":"Место работы:"%></dt>
+                                        <dd><input type="text" name="${type.name()}" size=45 value=""></dd>
+                                        <dt>WWW: </dt>
+                                        <dd><input type="text" name="${type.name()}" size=30 value=""></dd>
+                                        <br><br/>
+                                            <dt>Период c </dt>
+                                            <dd><input type="text" name="${type.name()}" size=30 value=""></dd>
+                                            <dt>    по </dt>
+                                            <dd><input type="text" name="${type.name()}" size=30 value=""></dd>
+                                            <br><dt> Должность: </dt>
+                                            <dd><input type="text" name="${type.name()}" size=30 value=""></dd>
+                                            <dt>   Описание: </dt>
+                                            <dd><input type="text" name="${type.name()}" size=30 value=""></dd><br/>
+                                        <br><br/>
+                                    </li>
+                            </ol>
+                        </c:when>
+                        <c:otherwise>
+                            Ни одно условие не верно.
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+
+            </dl>
         </c:forEach>
         <hr>
         <button type="submit">Сохранить</button>
