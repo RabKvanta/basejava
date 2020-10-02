@@ -13,6 +13,17 @@ import java.util.UUID;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final Resume EMPTY = new Resume();
+
+    static {
+        EMPTY.setSection(SectionType.OBJECTIVE, TextSection.EMPTY);
+        EMPTY.setSection(SectionType.PERSONAL, TextSection.EMPTY);
+        EMPTY.setSection(SectionType.ACHIEVEMENT, ListSection.EMPTY);
+        EMPTY.setSection(SectionType.QUALIFICATION, ListSection.EMPTY);
+        EMPTY.setSection(SectionType.EXPERIENCE, new ExperienceSection(Experience.EMPTY));
+        EMPTY.setSection(SectionType.EDUCATION, new ExperienceSection(Experience.EMPTY));
+    }
+
     // Unique identifier
     private String uuid;
 
@@ -71,11 +82,11 @@ public class Resume implements Serializable {
         return sections.get(type);
     }
 
-    public void addSection(SectionType type, AbstractSection section) {
+    public void setSection(SectionType type, AbstractSection section) {
         sections.put(type, section);
     }
 
-    public void addContact(ContactType type, String value) {
+    public void setContact(ContactType type, String value) {
         contacts.put(type, value);
     }
 

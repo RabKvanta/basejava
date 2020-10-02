@@ -62,7 +62,7 @@ public abstract class AbstractStorageTest {
         storage.update(newResume);
         assertEquals(newResume, storage.get(UUID_1));
          */
-        RESUME_1.addContact(ContactType.EMAIL,"updateResume1@mail.ru");
+        RESUME_1.setContact(ContactType.EMAIL,"updateResume1@mail.ru");
         storage.update(RESUME_1);
         assertEquals(RESUME_1, storage.get(UUID_1));
     }
