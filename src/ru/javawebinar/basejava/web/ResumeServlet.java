@@ -135,7 +135,7 @@ public class ResumeServlet extends HttpServlet {
                             break;
                         case EXPERIENCE:
                         case EDUCATION:
-                            ExperienceSection orgSection = (ExperienceSection) r.getSection(type);
+                            ExperienceSection orgSection = (ExperienceSection) section;
                             List<Experience> emptyFirstOrganizations = new ArrayList<>();
                             emptyFirstOrganizations.add(Experience.EMPTY);
                             if (section != null) {
@@ -151,6 +151,7 @@ public class ResumeServlet extends HttpServlet {
                     }
                     r.setSection(type, section);
                 }
+                break;
 
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
