@@ -11,7 +11,7 @@ create table contact
     type        text               not null,
     value       text               not null
 );
-create unique index contact__uuid_type_index on contact (resume_uuid, type);
+create unique index contact_uuid_type_index on contact (resume_uuid, type);
 
 create table section
 (
